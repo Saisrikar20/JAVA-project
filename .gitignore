@@ -1,0 +1,19 @@
+# Compiled classes and build artifacts
+bin/
+target/
+*.class
+
+# Temporary and local database files
+hostel.db
+
+# IDE and Editor files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS generated files
+Thumbs.db
+.DS_Store
