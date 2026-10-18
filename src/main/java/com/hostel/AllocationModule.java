@@ -150,4 +150,31 @@ public class AllocationModule {
             System.err.println("Error displaying allocations: " + e.getMessage());
         }
     }
+
+    // DBMS: Return all active allocations as JSON for Web API
+    public String getAllocationsJson() {
+        StringBuilder sb = new StringBuilder("[");
+        String sql = "SELECT a.alloc_id, a.student_id, a.room_id, u.full_name, s.reg_no, r.room_no, b.block_name, a.start_date " +
+                     "FROM allocations a JOIN students s ON a.student_id = s.student_id " +
+                     "JOIN users u ON s.student_id = u.user_id " +
+                     "JOIN rooms r ON a.room_id = r.room_id " +
+                     "JOIN hostel_blocks b ON r.block_id = b.block_id " +
+                     "WHERE a.status = 'ACTIVE' ORDER BY a.alloc_id ASC";
+        try (Statement s = conn.createStatement(); ResultSet rs = s.executeQuery(sql)) {
+            boolean first = true;
+            while (rs.next()) {
+                if (!first) sb.append(",");
+                sb.append(String.format("{\"allocId\":%d,\"studentId\":%d,\"roomId\":%d,\"studentName\":\"%s\",\"regNo\":\"%s\",\"roomNo\":\"%s\",\"block\":\"%s\",\"startDate\":\"%s\"}",
+                        rs.getInt("alloc_id"), rs.getInt("student_id"), rs.getInt("room_id"),
+                        rs.getString("full_name"), rs.getString("reg_no"),
+                        rs.getString("room_no"), rs.getString("block_name"),
+                        rs.getString("start_date")));
+                first = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating allocations JSON: " + e.getMessage());
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

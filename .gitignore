@@ -17,3 +17,9 @@ hostel.db
 # OS generated files
 Thumbs.db
 .DS_Store
+
+# Temporary datasets and scripts
+*.zip
+*.py
+model_arena_data/
+PROBLEM_STATEMENTS.md

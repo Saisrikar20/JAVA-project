@@ -1,32 +1,35 @@
 # Smart Hostel Management System (SHMS)
-**Integrated OOP & DBMS Mini-Project (CLI Only)**
+**Integrated OOP & DBMS Mini-Project (Web Application & CLI)**
 
 ---
 
 ## 📌 Project Overview
 * **Project Title:** SmartHostel: An Integrated Object-Oriented Hostel Administration and Room Allocation System with Relational Database Management
+* **Web URL:** [http://localhost:8080](http://localhost:8080)
 * **Team Size:** 4 Members
-* **Architecture:** 4 Distinct Modules (1 File Per Member) & 8 Relational Tables
-* **Total Size:** ~850 Lines of Clean, Human-Readable Code (No bloat, completely believable for viva)
+* **Architecture:** 4 Distinct Modules (1 File Per Member), 8 Relational Tables & Built-in Lightweight HTTP Web Server
+* **Total Size:** Clean, human-readable code with zero bloat and 100% believable for viva defense.
 
 ---
 
-## 🚀 How to Run the Project
+## 🚀 How to Run the Application
 
-### Option A: From Terminal
+### 1. From Terminal
 1. **Compile:**
    ```bash
    javac -d bin -cp "lib/*" src/main/java/com/hostel/*.java
    ```
-2. **Run:**
+2. **Run (Starts both Web Server & Terminal CLI):**
    ```bash
    java -cp "bin;lib/*" com.hostel.Main
    ```
+   * **Web Application:** Open your browser at **[http://localhost:8080](http://localhost:8080)**
+   * **Terminal CLI:** Simultaneously accessible right inside your terminal.
 
-### Option B: From IntelliJ IDEA / VS Code
+### 2. From IntelliJ IDEA / VS Code
 1. Open `g:\java project` in your IDE.
-2. Ensure the JAR files inside the `lib/` folder are added as libraries (Project Structure $\to$ Libraries $\to$ Add `lib/`).
-3. Open `src/main/java/com/hostel/Main.java` and click the green **Run ▶** button.
+2. Add the JAR files inside `lib/` as project libraries.
+3. Open `src/main/java/com/hostel/Main.java` (or `WebServer.java`) and click **Run ▶**.
 
 ### 3. Demo Login Credentials (Password for all accounts is `123`)
 * **Admin:** `admin` / `123`

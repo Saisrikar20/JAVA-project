@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartHostel - Integrated OOP & DBMS Web Application</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    /* Top Navigation */
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .brand h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+    .brand p { font-size: 0.85rem; opacity: 0.9; }
+
+    /* Role Navigation Bar */
+    .nav-tabs {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      padding: 0 2rem;
+      gap: 1rem;
+    }
+    .nav-tab {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-tab:hover { color: var(--primary); }
+    .nav-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* Main Container */
+    main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Grid & Cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .card h3 { font-size: 1.15rem; margin-bottom: 1rem; color: #1e293b; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+
+    /* Tables */
+    .table-container { overflow-x: auto; margin-top: 1rem; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+    th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+    th { background: #f1f5f9; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+    tr:hover { background-color: #f8fafc; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-success { background: #dcfce7; color: #15803d; }
+    .badge-warning { background: #fef3c7; color: #b45309; }
+    .badge-primary { background: #dbeafe; color: #1d4ed8; }
+    .badge-danger { background: #fee2e2; color: #b91c1c; }
+
+    /* Forms */
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; color: #334155; }
+    .form-control {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-warning { background: var(--warning); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-sm { padding: 0.35rem 0.65rem; font-size: 0.8rem; }
+
+    /* Viva Box */
+    .concept-box {
+      border-left: 4px solid var(--primary);
+      background: #eff6ff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .concept-box h4 { color: #1d4ed8; margin-bottom: 0.25rem; }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      display: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <h1>🏰 Smart Hostel Management System</h1>
+      <p>Integrated OOPs & DBMS Academic Project • 4 Members • 8 Relational Tables</p>
+    </div>
+    <div>
+      <span class="badge badge-success" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">● Live REST API</span>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('admin')">👑 Admin Dashboard</div>
+    <div class="nav-tab" onclick="switchTab('warden')">🛡️ Warden Portal</div>
+    <div class="nav-tab" onclick="switchTab('student')">🎓 Student Resident</div>
+    <div class="nav-tab" onclick="switchTab('viva')">📚 Viva Architecture Guide</div>
+  </nav>
+
+  <main>
+    <!-- TAB 1: ADMIN DASHBOARD -->
+    <section id="tab-admin" class="tab-content active">
+      <div class="grid">
+        <div class="card">
+          <h3>Register New Student (Member 1)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Demonstrates <strong>Inheritance & Encapsulation</strong> across <code>users</code> and <code>students</code> tables.
+          </p>
+          <form onsubmit="handleRegisterStudent(event)">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="reg-name" class="form-control" placeholder="e.g. Vikramaditya Rao" required>
+            </div>
+            <div class="form-group">
+              <label>University Reg No</label>
+              <input type="text" id="reg-no" class="form-control" placeholder="e.g. 23CS099" required>
+            </div>
+            <div class="form-group">
+              <label>Department & Gender</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="reg-dept" class="form-control" placeholder="CSE / ECE / MECH" required>
+                <select id="reg-gender" class="form-control">
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Username & Password</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="reg-user" class="form-control" placeholder="username" required>
+                <input type="password" id="reg-pass" class="form-control" placeholder="password" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Phone Number (10 Digits)</label>
+              <input type="text" id="reg-phone" class="form-control" placeholder="9876543210" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Register Student</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Add New Hostel Room (Member 2)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Demonstrates <strong>Polymorphic tariff rates</strong> across <code>hostel_blocks</code> & <code>rooms</code> tables.
+          </p>
+          <form onsubmit="handleAddRoom(event)">
+            <div class="form-group">
+              <label>Hostel Block</label>
+              <select id="room-block" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label>Room Number</label>
+              <input type="text" id="room-no" class="form-control" placeholder="e.g. K-201" required>
+            </div>
+            <div class="form-group">
+              <label>Room Type (Polymorphism Demo)</label>
+              <select id="room-type" class="form-control">
+                <option value="STANDARD">STANDARD (Base rent)</option>
+                <option value="DELUXE">DELUXE (+15% amenity surcharge)</option>
+                <option value="AC">AC (+35% cooling/power tariff)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Bed Capacity & Base Monthly Rent</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="number" id="room-cap" class="form-control" value="2" min="1" max="6" required>
+                <input type="number" id="room-rent" class="form-control" value="4500" step="100" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success" style="width: 100%;">Create Room</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3>Registered Students (Table 1: users & Table 2: students)</h3>
+        <div class="table-container">
+          <table id="table-students">
+            <thead>
+              <tr><th>ID</th><th>Reg No</th><th>Student Name</th><th>Gender</th><th>Department</th><th>Phone</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Hostel Financial Audit & Collections (Table 7: fee_payments)</h3>
+        <div id="financial-audit-summary" style="font-size: 1.1rem; font-weight: 700; color: var(--success); margin: 0.5rem 0 1rem 0;"></div>
+        <div class="table-container">
+          <table id="table-payments">
+            <thead>
+              <tr><th>Txn ID</th><th>Student</th><th>Reg No</th><th>Fee Type</th><th>Amount</th><th>Date</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: WARDEN PORTAL -->
+    <section id="tab-warden" class="tab-content">
+      <div class="grid">
+        <div class="card">
+          <h3>Allocate Room (Member 3 - ACID Transaction)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Atomic multi-table transaction with <code>commit()</code> & <code>rollback()</code>.
+          </p>
+          <form onsubmit="handleAllocateRoom(event)">
+            <div class="form-group">
+              <label>Select Student</label>
+              <select id="alloc-student" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>Select Vacant Room</label>
+              <select id="alloc-room" class="form-control" required></select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Book Room (Execute Transaction)</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Search Rooms (Member 2 - Overloading Demo)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Demonstrates method overloading: <code>searchRooms(int)</code> vs <code>searchRooms(String)</code>.
+          </p>
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <select id="filter-type" class="form-control" onchange="loadRooms()">
+              <option value="">All Room Types</option>
+              <option value="STANDARD">STANDARD</option>
+              <option value="DELUXE">DELUXE</option>
+              <option value="AC">AC</option>
+            </select>
+            <input type="number" id="filter-cap" class="form-control" placeholder="Min Capacity" oninput="loadRooms()" min="1" max="6">
+          </div>
+          <button type="button" class="btn btn-warning btn-sm" onclick="clearRoomFilters()">Reset Filters</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3>Room Inventory & Vacancies (Table 3: blocks & Table 4: rooms)</h3>
+        <div class="table-container">
+          <table id="table-rooms">
+            <thead>
+              <tr><th>ID</th><th>Block</th><th>Room No</th><th>Type</th><th>Occupancy</th><th>Base Rent</th><th>Polymorphic Rent</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3>Active Room Allocations (Table 5: wardens & Table 6: allocations)</h3>
+        <div class="table-container">
+          <table id="table-allocations">
+            <thead>
+              <tr><th>Alloc ID</th><th>Student Name</th><th>Reg No</th><th>Block</th><th>Room</th><th>Start Date</th><th>Action</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Student Complaints & Grievance Redressal (Table 8: complaints)</h3>
+        <div class="table-container">
+          <table id="table-complaints">
+            <thead>
+              <tr><th>ID</th><th>Student</th><th>Category</th><th>Title</th><th>Status</th><th>Resolution Notes</th><th>Action</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: STUDENT PORTAL -->
+    <section id="tab-student" class="tab-content">
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3>Student Account Switcher</h3>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <label style="font-weight: 600;">Active Resident:</label>
+          <select id="active-student-select" class="form-control" style="max-width: 300px;" onchange="loadStudentDashboard()"></select>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Semester Fee Statement (Polymorphism Demo)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Dynamically computed: <code>(room.calculateRent() * 6) + ₹15,000 Mess Fee</code>.
+          </p>
+          <div style="background: #f8fafc; border: 1px dashed var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <p><strong>Total Semester Bill:</strong> <span id="bill-total" style="color: var(--primary);">₹0.00</span></p>
+            <p><strong>Total Amount Paid:</strong> <span id="bill-paid" style="color: var(--success);">₹0.00</span></p>
+            <p style="font-size: 1.1rem; margin-top: 0.5rem;"><strong>Outstanding Balance:</strong> <span id="bill-pending" style="color: var(--danger); font-weight: 700;">₹0.00</span></p>
+          </div>
+
+          <h4>Make Online Payment</h4>
+          <form onsubmit="handlePayFee(event)">
+            <div class="form-group" style="margin-top: 0.5rem;">
+              <label>Amount (₹)</label>
+              <input type="number" id="pay-amount" class="form-control" value="5000" min="100" step="100" required>
+            </div>
+            <div class="form-group">
+              <label>Fee Category</label>
+              <select id="pay-type" class="form-control">
+                <option value="HOSTEL_FEE">HOSTEL_FEE</option>
+                <option value="MESS_FEE">MESS_FEE</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success" style="width: 100%;">Pay Dues (Record Transaction)</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Lodge Grievance / Maintenance Ticket (Table 8)</h3>
+          <form onsubmit="handleLodgeComplaint(event)">
+            <div class="form-group">
+              <label>Maintenance Category</label>
+              <select id="comp-category" class="form-control">
+                <option value="PLUMBING">PLUMBING (Tap / Shower / Toilet)</option>
+                <option value="ELECTRICAL">ELECTRICAL (Fan / Socket / Light)</option>
+                <option value="CLEANLINESS">CLEANLINESS (Corridor / Room cleaning)</option>
+                <option value="MESS">MESS (Food quality / Service)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Issue Title</label>
+              <input type="text" id="comp-title" class="form-control" placeholder="e.g. Study lamp power socket sparking" required>
+            </div>
+            <button type="submit" class="btn btn-warning" style="width: 100%;">Submit Complaint Ticket</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: VIVA ARCHITECTURE GUIDE -->
+    <section id="tab-viva" class="tab-content">
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h3>Academic Viva Architecture: 4 Members & 8 Relational Tables</h3>
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">
+          Every team member manages exactly <strong>2 database tables</strong> and owns a major <strong>OOP and DBMS concept</strong> to present to the faculty:
+        </p>
+
+        <div class="grid">
+          <div class="concept-box">
+            <h4>Member 1: StudentModule.java</h4>
+            <p><strong>Tables:</strong> <code>1. users</code> & <code>2. students</code></p>
+            <p><strong>OOP:</strong> Inheritance (<code>User</code> base & <code>Student</code> subclass) and Encapsulation with private attributes.</p>
+            <p><strong>DBMS:</strong> Student registration and login queries using <code>PreparedStatement</code>.</p>
+          </div>
+
+          <div class="concept-box">
+            <h4>Member 2: RoomModule.java</h4>
+            <p><strong>Tables:</strong> <code>3. hostel_blocks</code> & <code>4. rooms</code></p>
+            <p><strong>OOP:</strong> Abstraction (abstract <code>Room</code>) and Polymorphism (<code>StandardRoom</code>, <code>DeluxeRoom</code>, <code>ACRoom</code> overriding <code>calculateRent()</code>).</p>
+            <p><strong>DBMS:</strong> Room inventory, vacancy queries, and method overloading (search by capacity vs type).</p>
+          </div>
+
+          <div class="concept-box">
+            <h4>Member 3: AllocationModule.java</h4>
+            <p><strong>Tables:</strong> <code>5. wardens</code> & <code>6. allocations</code></p>
+            <p><strong>OOP:</strong> Domain composition and business rule validation.</p>
+            <p><strong>DBMS:</strong> <strong>ACID Transactions</strong> using <code>setAutoCommit(false)</code>, atomicity across allocation and bed vacancy decrement, commit/rollback.</p>
+          </div>
+
+          <div class="concept-box">
+            <h4>Member 4: BillingAndComplaintModule.java</h4>
+            <p><strong>Tables:</strong> <code>7. fee_payments</code> & <code>8. complaints</code></p>
+            <p><strong>OOP:</strong> Dynamic tariff integration (invoking polymorphic room rent) and ticket state lifecycle.</p>
+            <p><strong>DBMS:</strong> SQL Aggregations (<code>SUM(amount)</code>) for fee balance, multi-table tracking, and complaint status updates.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast"></div>
+
+  <script>
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      const idx = ['admin', 'warden', 'student', 'viva'].indexOf(tabId);
+      document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+
+      if (tabId === 'admin') { loadStudents(); loadFinancialAudit(); loadBlocks(); }
+      if (tabId === 'warden') { loadRooms(); loadAllocations(); loadComplaints(); populateWardenDropdowns(); }
+      if (tabId === 'student') { populateStudentSelect(); }
+    }
+
+    // Toast Utility
+    function showToast(msg, isSuccess = true) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.backgroundColor = isSuccess ? '#16a34a' : '#dc2626';
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+
+    // --- API CLIENT ---
+
+    async function loadStudents() {
+      const res = await fetch('/api/students');
+      const students = await res.json();
+      const tbody = document.querySelector('#table-students tbody');
+      tbody.innerHTML = students.map(s => `
+        <tr>
+          <td><strong>${s.id}</strong></td>
+          <td><code>${s.regNo}</code></td>
+          <td>${s.name}</td>
+          <td><span class="badge badge-primary">${s.gender}</span></td>
+          <td>${s.dept}</td>
+          <td>${s.phone}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadRooms() {
+      const type = document.getElementById('filter-type')?.value || '';
+      const cap = document.getElementById('filter-cap')?.value || '';
+      let url = '/api/rooms?';
+      if (type) url += 'type=' + encodeURIComponent(type) + '&';
+      if (cap) url += 'capacity=' + encodeURIComponent(cap);
+
+      const res = await fetch(url);
+      const rooms = await res.json();
+      const tbody = document.querySelector('#table-rooms tbody');
+      tbody.innerHTML = rooms.map(r => `
+        <tr>
+          <td>${r.id}</td>
+          <td>${r.block}</td>
+          <td><strong>${r.roomNo}</strong></td>
+          <td><span class="badge ${r.type === 'AC' ? 'badge-primary' : (r.type === 'DELUXE' ? 'badge-warning' : 'badge-success')}">${r.type}</span></td>
+          <td>${r.occupied} / ${r.capacity} beds</td>
+          <td>₹${r.baseRent.toFixed(2)}</td>
+          <td><strong>₹${r.calculatedRent.toFixed(2)}</strong></td>
+          <td>${r.hasVacancy ? '<span class="badge badge-success">Available</span>' : '<span class="badge badge-danger">Occupied</span>'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function clearRoomFilters() {
+      if (document.getElementById('filter-type')) document.getElementById('filter-type').value = '';
+      if (document.getElementById('filter-cap')) document.getElementById('filter-cap').value = '';
+      loadRooms();
+    }
+
+    async function loadBlocks() {
+      const res = await fetch('/api/blocks');
+      const blocks = await res.json();
+      const select = document.getElementById('room-block');
+      if (select) {
+        select.innerHTML = blocks.map(b => `<option value="${b.id}">${b.name} (${b.gender})</option>`).join('');
+      }
+    }
+
+    async function loadAllocations() {
+      const res = await fetch('/api/allocations');
+      const allocs = await res.json();
+      const tbody = document.querySelector('#table-allocations tbody');
+      tbody.innerHTML = allocs.map(a => `
+        <tr>
+          <td>#${a.allocId}</td>
+          <td><strong>${a.studentName}</strong></td>
+          <td><code>${a.regNo}</code></td>
+          <td>${a.block}</td>
+          <td>Room ${a.roomNo}</td>
+          <td>${a.startDate}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="handleVacate(${a.studentId})">Vacate Bed</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadComplaints() {
+      const res = await fetch('/api/complaints');
+      const complaints = await res.json();
+      const tbody = document.querySelector('#table-complaints tbody');
+      tbody.innerHTML = complaints.map(c => `
+        <tr>
+          <td>#${c.id}</td>
+          <td>${c.studentName} (${c.regNo})</td>
+          <td><span class="badge badge-warning">${c.category}</span></td>
+          <td>${c.title}</td>
+          <td><span class="badge ${c.status === 'RESOLVED' ? 'badge-success' : 'badge-danger'}">${c.status}</span></td>
+          <td><em>${c.notes || 'Pending review'}</em></td>
+          <td>
+            ${c.status === 'PENDING' ? `
+              <button class="btn btn-success btn-sm" onclick="handleResolveComplaint(${c.id})">Resolve</button>
+            ` : '<span style="color: green;">✓ Done</span>'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadFinancialAudit() {
+      const res = await fetch('/api/billing/audit');
+      const audit = await res.json();
+      document.getElementById('financial-audit-summary').innerText = `Total Revenue Collected: ₹${audit.totalRevenue.toFixed(2)}`;
+      const tbody = document.querySelector('#table-payments tbody');
+      tbody.innerHTML = audit.payments.map(p => `
+        <tr>
+          <td>#${p.id}</td>
+          <td>${p.student}</td>
+          <td><code>${p.regNo}</code></td>
+          <td><span class="badge badge-primary">${p.feeType}</span></td>
+          <td>₹${p.amount.toFixed(2)}</td>
+          <td>${p.date}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function populateWardenDropdowns() {
+      const stdRes = await fetch('/api/students');
+      const students = await stdRes.json();
+      document.getElementById('alloc-student').innerHTML = students.map(s => `
+        <option value="${s.id}">${s.name} (${s.regNo})</option>
+      `).join('');
+
+      const rmRes = await fetch('/api/rooms');
+      const rooms = await rmRes.json();
+      const vacant = rooms.filter(r => r.hasVacancy);
+      document.getElementById('alloc-room').innerHTML = vacant.map(r => `
+        <option value="${r.id}">${r.block} - Room ${r.roomNo} (${r.type}, ₹${r.calculatedRent}/mo)</option>
+      `).join('');
+    }
+
+    async function populateStudentSelect() {
+      const res = await fetch('/api/students');
+      const students = await res.json();
+      const select = document.getElementById('active-student-select');
+      select.innerHTML = students.map(s => `
+        <option value="${s.id}">${s.name} (${s.regNo})</option>
+      `).join('');
+      loadStudentDashboard();
+    }
+
+    async function loadStudentDashboard() {
+      const studentId = document.getElementById('active-student-select').value;
+      if (!studentId) return;
+      const res = await fetch(`/api/billing?studentId=${studentId}`);
+      const billing = await res.json();
+      document.getElementById('bill-total').innerText = `₹${billing.totalBill.toFixed(2)}`;
+      document.getElementById('bill-paid').innerText = `₹${billing.totalPaid.toFixed(2)}`;
+      document.getElementById('bill-pending').innerText = `₹${billing.pending.toFixed(2)}`;
+    }
+
+    // --- FORM ACTIONS ---
+
+    async function handleRegisterStudent(e) {
+      e.preventDefault();
+      const payload = {
+        fullName: document.getElementById('reg-name').value,
+        regNo: document.getElementById('reg-no').value,
+        dept: document.getElementById('reg-dept').value,
+        gender: document.getElementById('reg-gender').value,
+        username: document.getElementById('reg-user').value,
+        password: document.getElementById('reg-pass').value,
+        phone: document.getElementById('reg-phone').value
+      };
+      const res = await fetch('/api/students', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Student registered successfully!');
+        e.target.reset();
+        loadStudents();
+      } else {
+        showToast('Error registering student. Username/RegNo may already exist.', false);
+      }
+    }
+
+    async function handleAddRoom(e) {
+      e.preventDefault();
+      const payload = {
+        blockId: document.getElementById('room-block').value,
+        roomNo: document.getElementById('room-no').value,
+        type: document.getElementById('room-type').value,
+        capacity: document.getElementById('room-cap').value,
+        baseRent: document.getElementById('room-rent').value
+      };
+      const res = await fetch('/api/rooms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Hostel Room created successfully!');
+        e.target.reset();
+        loadRooms();
+      } else {
+        showToast('Failed to add room. Room number may already exist.', false);
+      }
+    }
+
+    async function handleAllocateRoom(e) {
+      e.preventDefault();
+      const payload = {
+        studentId: document.getElementById('alloc-student').value,
+        roomId: document.getElementById('alloc-room').value
+      };
+      const res = await fetch('/api/allocations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Room successfully allocated via ACID Transaction!');
+        loadAllocations();
+        loadRooms();
+        populateWardenDropdowns();
+      } else {
+        showToast('Allocation failed. Student already assigned or room full.', false);
+      }
+    }
+
+    async function handleVacate(studentId) {
+      if (!confirm('Are you sure you want to vacate this student?')) return;
+      const res = await fetch('/api/allocations/vacate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId: studentId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Student vacated successfully! Bed returned to vacant pool.');
+        loadAllocations();
+        loadRooms();
+        populateWardenDropdowns();
+      } else {
+        showToast('Failed to vacate student.', false);
+      }
+    }
+
+    async function handlePayFee(e) {
+      e.preventDefault();
+      const studentId = document.getElementById('active-student-select').value;
+      const payload = {
+        studentId: studentId,
+        amount: document.getElementById('pay-amount').value,
+        feeType: document.getElementById('pay-type').value
+      };
+      const res = await fetch('/api/billing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Payment successful! Digital receipt recorded in Table 7.');
+        loadStudentDashboard();
+      } else {
+        showToast('Payment processing failed.', false);
+      }
+    }
+
+    async function handleLodgeComplaint(e) {
+      e.preventDefault();
+      const studentId = document.getElementById('active-student-select').value;
+      const payload = {
+        studentId: studentId,
+        category: document.getElementById('comp-category').value,
+        title: document.getElementById('comp-title').value
+      };
+      const res = await fetch('/api/complaints', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Grievance ticket lodged successfully!');
+        e.target.reset();
+      } else {
+        showToast('Failed to lodge complaint.', false);
+      }
+    }
+
+    async function handleResolveComplaint(complaintId) {
+      const notes = prompt('Enter resolution remarks / action taken:', 'Maintenance technician completed repair.');
+      if (!notes) return;
+      const res = await fetch('/api/complaints/resolve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ complaintId: complaintId, notes: notes })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Complaint resolved successfully!');
+        loadComplaints();
+      } else {
+        showToast('Failed to update complaint status.', false);
+      }
+    }
+
+    // Initial load
+    window.onload = () => {
+      loadStudents();
+      loadFinancialAudit();
+      loadBlocks();
+    };
+  </script>
+</body>
+</html>

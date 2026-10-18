@@ -17,14 +17,19 @@ public class Main {
         // Initialize the 8 relational tables
         Database.getConnection();
 
+        // Start built-in Web Server on port 8080
+        WebServer.start(8080);
+
         while (true) {
             System.out.println("\n========================================================");
-            System.out.println("       SMART HOSTEL MANAGEMENT SYSTEM (CLI)");
+            System.out.println("       SMART HOSTEL MANAGEMENT SYSTEM");
             System.out.println("   Integrated OOP & DBMS Project (4 Members, 8 Tables)");
             System.out.println("========================================================");
-            System.out.println("1. Login (Admin / Warden / Student)");
-            System.out.println("2. View Project Viva Guide (Concepts & 8 Tables Architecture)");
-            System.out.println("3. Exit");
+            System.out.println(" 🌐 Web Application: http://localhost:8080 (Open in Browser)");
+            System.out.println(" 💻 Terminal CLI Options:");
+            System.out.println("   1. Login to Terminal CLI (Admin / Warden / Student)");
+            System.out.println("   2. View Project Viva Guide (Concepts & 8 Tables Architecture)");
+            System.out.println("   3. Exit");
             System.out.print("Select an option (1-3): ");
 
             int choice = readInt(1, 3);
@@ -34,6 +39,7 @@ public class Main {
                 showVivaGuide();
             } else {
                 System.out.println("Exiting application. Goodbye!");
+                WebServer.stop();
                 break;
             }
         }
