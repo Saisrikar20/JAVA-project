@@ -23,3 +23,13 @@ Thumbs.db
 *.py
 model_arena_data/
 PROBLEM_STATEMENTS.md
+
+# LaTeX temporary files
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+report.pdf
+data divergence ml/
