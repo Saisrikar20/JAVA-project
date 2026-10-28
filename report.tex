@@ -12,6 +12,17 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \draw[line width=0.8pt] 
+      ([xshift=0.33in,yshift=-0.33in]current page.north west) 
+      rectangle 
+      ([xshift=-0.33in,yshift=0.33in]current page.south east);
+  \end{tikzpicture}%
+}
+
 
 \hypersetup{
     colorlinks=true,
@@ -84,7 +95,9 @@
 {\normalsize in\par}
 {\fontsize{13}{16}\selectfont \textbf{COMPUTER SCIENCE AND ENGINEERING}\par}
 
-\vspace{1.5cm}
+\vspace{0.8cm}
+\includegraphics[width=0.75\textwidth]{diagrams/college_logos.jpeg}\par
+\vspace{0.8cm}
 {\fontsize{13}{16}\selectfont \textbf{RAJALAKSHMI ENGINEERING COLLEGE}\par}
 {\normalsize \textbf{(AUTONOMOUS), CHENNAI -- 602 105}\par}
 \vspace{0.4cm}
@@ -546,12 +559,28 @@ The relational model defines eight entities and their relationships:
 \item \texttt{STUDENTS} lodges multiple \texttt{COMPLAINTS} (1:N relationship).
 \end{itemize}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{diagrams/fig3_2_er_diagram.png}
+\caption{Entity-Relationship (ER) Crow\'s Foot Schema Diagram}
+\label{fig:er_diagram}
+\end{figure}
+
+
 \section{UML Class Hierarchy Design}
 The object-oriented domain layer models these entities through two inheritance hierarchies:
 \begin{enumerate}
 \item \textbf{User Taxonomy:} A base class \texttt{User} defines shared attributes (\texttt{userId}, \texttt{username}, \texttt{password}, \texttt{role}, \texttt{fullName}). The \texttt{Student} subclass extends \texttt{User}, adding university-specific fields (\texttt{regNo}, \texttt{gender}, \texttt{department}, \texttt{phone}).
 \item \textbf{Room Taxonomy:} An abstract base class \texttt{Room} defines general room properties (\texttt{roomId}, \texttt{roomNo}, \texttt{capacity}, \texttt{bedsOccupied}, \texttt{baseRent}) and declares an abstract method \texttt{calculateRent()}. Concrete subclasses (\texttt{StandardRoom}, \texttt{DeluxeRoom}, \texttt{ACRoom}) override this method to compute specialized tariffs.
 \end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{diagrams/fig3_3_uml_diagram.png}
+\caption{UML Object-Oriented Domain Class Diagram}
+\label{fig:uml_diagram}
+\end{figure}
+
 
 \section{System Architecture}
 The software follows an enterprise three-tier architecture:
@@ -560,6 +589,14 @@ The software follows an enterprise three-tier architecture:
 \item \textbf{Application Logic Tier:} Comprises four functional modules (\texttt{StudentModule}, \texttt{RoomModule}, \texttt{AllocationModule}, \texttt{BillingAndComplaintModule}) encapsulating domain rules and transactions.
 \item \textbf{Data Persistence Tier:} A centralized database connection pool (\texttt{Database.java}) executing parameterized SQL statements against the normalized relational database.
 \end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{diagrams/fig3_1_architecture.png}
+\caption{Three-Tier Modular System Architecture Flow}
+\label{fig:architecture}
+\end{figure}
+
 
 \section{Hardware and Software Specifications}
 
@@ -745,6 +782,14 @@ public void searchRooms(String roomType) {
 \textbf{Developer:} Sanjana VS (Register Number: 251801287)\\
 \textbf{Assigned Tables:} \texttt{wardens} (Table 5) and \texttt{allocations} (Table 6)
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{diagrams/fig4_1_sequence_diagram.png}
+\caption{ACID Allocation Transaction Sequence Diagram}
+\label{fig:sequence_diagram}
+\end{figure}
+
+
 \subsection{ACID Transaction Implementation}
 Assigning a student to a room requires updating two tables atomically. The transaction steps are:
 \begin{enumerate}
@@ -773,6 +818,14 @@ UPDATE rooms SET beds_occupied = beds_occupied + 1 WHERE room_id = ?;
 \section{Module 4: Fee Billing and Grievance Management}
 \textbf{Developer:} Sandhiya B (Register Number: 251801285)\\
 \textbf{Assigned Tables:} \texttt{fee\_payments} (Table 7) and \texttt{complaints} (Table 8)
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{diagrams/fig4_2_state_machine.png}
+\caption{Grievance Lifecycle Finite State Transition Diagram}
+\label{fig:state_machine}
+\end{figure}
+
 
 \subsection{Polymorphic Rate Integration}
 Rather than hardcoding room rates in the billing module, the semester bill is computed by querying the resident's allocated room and invoking Member 2's polymorphic method:
