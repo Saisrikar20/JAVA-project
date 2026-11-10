@@ -167,4 +167,52 @@ public class RoomModule {
             return false;
         }
     }
+
+    // DBMS: Return rooms JSON with polymorphic rent calculations
+    public String getRoomsJson(Integer minCapacity, String roomType) {
+        StringBuilder sb = new StringBuilder("[");
+        String sql = "SELECT r.*, b.block_name FROM rooms r JOIN hostel_blocks b ON r.block_id = b.block_id WHERE 1=1";
+        if (minCapacity != null) sql += " AND r.capacity >= " + minCapacity;
+        if (roomType != null && !roomType.isEmpty()) sql += " AND UPPER(r.room_type) = '" + roomType.toUpperCase() + "'";
+        sql += " ORDER BY r.room_id ASC";
+
+        try (Statement s = conn.createStatement(); ResultSet rs = s.executeQuery(sql)) {
+            boolean first = true;
+            while (rs.next()) {
+                if (!first) sb.append(",");
+                Room r = createRoomInstance(rs.getInt("room_id"), rs.getInt("block_id"),
+                        rs.getString("room_no"), rs.getString("room_type"),
+                        rs.getInt("capacity"), rs.getInt("beds_occupied"), rs.getDouble("base_rent"));
+
+                sb.append(String.format("{\"id\":%d,\"block\":\"%s\",\"roomNo\":\"%s\",\"type\":\"%s\",\"capacity\":%d,\"occupied\":%d,\"baseRent\":%.2f,\"calculatedRent\":%.2f,\"hasVacancy\":%b}",
+                        r.getRoomId(), rs.getString("block_name"), r.getRoomNo(),
+                        r.getRoomType(), r.getCapacity(), r.getBedsOccupied(),
+                        r.getBaseRent(), r.calculateRent(), r.hasVacancy()));
+                first = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating rooms JSON: " + e.getMessage());
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    // DBMS: Return blocks JSON for room creation dropdowns
+    public String getBlocksJson() {
+        StringBuilder sb = new StringBuilder("[");
+        String sql = "SELECT * FROM hostel_blocks ORDER BY block_id ASC";
+        try (Statement s = conn.createStatement(); ResultSet rs = s.executeQuery(sql)) {
+            boolean first = true;
+            while (rs.next()) {
+                if (!first) sb.append(",");
+                sb.append(String.format("{\"id\":%d,\"name\":\"%s\",\"gender\":\"%s\"}",
+                        rs.getInt("block_id"), rs.getString("block_name"), rs.getString("gender_type")));
+                first = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating blocks JSON: " + e.getMessage());
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

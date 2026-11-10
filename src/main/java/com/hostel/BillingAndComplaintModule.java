@@ -143,4 +143,56 @@ public class BillingAndComplaintModule {
             System.err.println("Error displaying audit: " + e.getMessage());
         }
     }
+
+    // DBMS: Return all complaints as JSON for Web API
+    public String getComplaintsJson() {
+        StringBuilder sb = new StringBuilder("[");
+        String sql = "SELECT c.complaint_id, c.student_id, u.full_name, s.reg_no, c.category, c.title, c.status, c.resolution_notes " +
+                     "FROM complaints c JOIN students s ON c.student_id = s.student_id " +
+                     "JOIN users u ON s.student_id = u.user_id ORDER BY c.complaint_id DESC";
+        try (Statement s = conn.createStatement(); ResultSet rs = s.executeQuery(sql)) {
+            boolean first = true;
+            while (rs.next()) {
+                if (!first) sb.append(",");
+                String notes = rs.getString("resolution_notes");
+                if (notes == null) notes = "";
+                sb.append(String.format("{\"id\":%d,\"studentId\":%d,\"studentName\":\"%s\",\"regNo\":\"%s\",\"category\":\"%s\",\"title\":\"%s\",\"status\":\"%s\",\"notes\":\"%s\"}",
+                        rs.getInt("complaint_id"), rs.getInt("student_id"),
+                        rs.getString("full_name"), rs.getString("reg_no"),
+                        rs.getString("category"), rs.getString("title"),
+                        rs.getString("status"), notes.replace("\"", "\\\"")));
+                first = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating complaints JSON: " + e.getMessage());
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    // DBMS: Return financial audit as JSON for Web API
+    public String getFinancialAuditJson() {
+        StringBuilder sb = new StringBuilder("{\"payments\":[");
+        String sql = "SELECT p.payment_id, u.full_name, s.reg_no, p.fee_type, p.amount, p.payment_date " +
+                     "FROM fee_payments p JOIN students s ON p.student_id = s.student_id " +
+                     "JOIN users u ON s.student_id = u.user_id ORDER BY p.payment_id DESC";
+        double grandTotal = 0.0;
+        try (Statement s = conn.createStatement(); ResultSet rs = s.executeQuery(sql)) {
+            boolean first = true;
+            while (rs.next()) {
+                if (!first) sb.append(",");
+                double amt = rs.getDouble("amount");
+                grandTotal += amt;
+                sb.append(String.format("{\"id\":%d,\"student\":\"%s\",\"regNo\":\"%s\",\"feeType\":\"%s\",\"amount\":%.2f,\"date\":\"%s\"}",
+                        rs.getInt("payment_id"), rs.getString("full_name"),
+                        rs.getString("reg_no"), rs.getString("fee_type"), amt,
+                        rs.getString("payment_date")));
+                first = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating financial audit JSON: " + e.getMessage());
+        }
+        sb.append(String.format("],\"totalRevenue\":%.2f}", grandTotal));
+        return sb.toString();
+    }
 }

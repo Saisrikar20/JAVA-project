@@ -144,7 +144,7 @@ public class StudentModule {
         }
     }
 
-    // DBMS: View all registered students
+    // DBMS: View all registered students (CLI)
     public void displayAllStudents() {
         String sql = "SELECT u.user_id, s.reg_no, u.full_name, s.department, s.phone " +
                      "FROM users u JOIN students s ON u.user_id = s.student_id";
@@ -159,5 +159,27 @@ public class StudentModule {
         } catch (SQLException e) {
             System.err.println("Error displaying students: " + e.getMessage());
         }
+    }
+
+    // DBMS: Return all students as JSON string for Web API
+    public String getStudentsJson() {
+        StringBuilder sb = new StringBuilder("[");
+        String sql = "SELECT u.user_id, s.reg_no, u.full_name, s.gender, s.department, s.phone " +
+                     "FROM users u JOIN students s ON u.user_id = s.student_id ORDER BY u.user_id ASC";
+        try (Statement s = conn.createStatement(); ResultSet rs = s.executeQuery(sql)) {
+            boolean first = true;
+            while (rs.next()) {
+                if (!first) sb.append(",");
+                sb.append(String.format("{\"id\":%d,\"regNo\":\"%s\",\"name\":\"%s\",\"gender\":\"%s\",\"dept\":\"%s\",\"phone\":\"%s\"}",
+                        rs.getInt("user_id"), rs.getString("reg_no"),
+                        rs.getString("full_name"), rs.getString("gender"),
+                        rs.getString("department"), rs.getString("phone")));
+                first = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error generating students JSON: " + e.getMessage());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
