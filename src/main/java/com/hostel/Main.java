@@ -23,15 +23,12 @@ public class Main {
             System.out.println("   Integrated OOP & DBMS Project (4 Members, 8 Tables)");
             System.out.println("========================================================");
             System.out.println("1. Login (Admin / Warden / Student)");
-            System.out.println("2. View Project Viva Guide (Concepts & 8 Tables Architecture)");
-            System.out.println("3. Exit");
-            System.out.print("Select an option (1-3): ");
+            System.out.println("2. Exit");
+            System.out.print("Select an option (1-2): ");
 
-            int choice = readInt(1, 3);
+            int choice = readInt(1, 2);
             if (choice == 1) {
                 handleLogin();
-            } else if (choice == 2) {
-                showVivaGuide();
             } else {
                 System.out.println("Exiting application. Goodbye!");
                 break;
@@ -175,30 +172,6 @@ public class Main {
                 }
             } else break;
         }
-    }
-
-    private static void showVivaGuide() {
-        System.out.println("\n========================================================");
-        System.out.println("      PROJECT VIVA GUIDE & 8 TABLES ARCHITECTURE");
-        System.out.println("========================================================");
-        System.out.println("Member 1 (StudentModule.java):");
-        System.out.println("  • Tables: 1. users, 2. students");
-        System.out.println("  • OOP: User -> Student Inheritance, Encapsulation");
-        System.out.println("  • DBMS: Student Registration & Authentication with PreparedStatement\n");
-        System.out.println("Member 2 (RoomModule.java):");
-        System.out.println("  • Tables: 3. hostel_blocks, 4. rooms");
-        System.out.println("  • OOP: Abstract Room -> Standard, Deluxe, AC (Polymorphic Rent)");
-        System.out.println("         Method Overloading: searchRooms(int) vs searchRooms(String)");
-        System.out.println("  • DBMS: Capacity constraints and Room inventory\n");
-        System.out.println("Member 3 (AllocationModule.java):");
-        System.out.println("  • Tables: 5. wardens, 6. allocations");
-        System.out.println("  • OOP: Allocation business logic");
-        System.out.println("  • DBMS: ACID Transactions (setAutoCommit(false), commit/rollback)\n");
-        System.out.println("Member 4 (BillingAndComplaintModule.java):");
-        System.out.println("  • Tables: 7. fee_payments, 8. complaints");
-        System.out.println("  • OOP: Integration with polymorphic room rates");
-        System.out.println("  • DBMS: Aggregations SUM(amount), complaint lifecycle tracking");
-        System.out.println("========================================================");
     }
 
     private static int readInt(int min, int max) {
