@@ -47,7 +47,6 @@ public class WebServer {
             server.createContext("/api/allocations", new AllocationsHandler());
             server.createContext("/api/billing", new BillingHandler());
             server.createContext("/api/complaints", new ComplaintsHandler());
-            server.createContext("/api/viva-info", new VivaInfoHandler());
 
             server.setExecutor(null); // Default single-thread / lightweight executor
             server.start();
@@ -237,35 +236,6 @@ public class WebServer {
                     sendResponse(ex, ok ? 200 : 400, "{\"success\":" + ok + "}", "application/json");
                 }
             }
-        }
-    }
-
-    static class VivaInfoHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange ex) throws IOException {
-            addCorsHeaders(ex);
-            String json = """
-                {
-                  "project": "Smart Hostel Management System",
-                  "tables": [
-                    {"table": "users", "owner": "Member 1", "purpose": "Authentication & Roles"},
-                    {"table": "students", "owner": "Member 1", "purpose": "Student Profiles & Academic Info"},
-                    {"table": "hostel_blocks", "owner": "Member 2", "purpose": "Residential Block Details"},
-                    {"table": "rooms", "owner": "Member 2", "purpose": "Room Capacity, Occupancy & Base Rent"},
-                    {"table": "wardens", "owner": "Member 3", "purpose": "Warden Staff & Assigned Blocks"},
-                    {"table": "allocations", "owner": "Member 3", "purpose": "Active Room Assignments"},
-                    {"table": "fee_payments", "owner": "Member 4", "purpose": "Financial Receipts & Mess Dues"},
-                    {"table": "complaints", "owner": "Member 4", "purpose": "Student Grievances & Resolution Remarks"}
-                  ],
-                  "members": [
-                    {"member": "Member 1", "file": "StudentModule.java", "oop": "Inheritance (User -> Student) & Encapsulation", "dbms": "CRUD with PreparedStatement"},
-                    {"member": "Member 2", "file": "RoomModule.java", "oop": "Abstraction & Polymorphic calculateRent(), Overloading", "dbms": "Capacity constraints & Inventory"},
-                    {"member": "Member 3", "file": "AllocationModule.java", "oop": "Composition & Business Rules", "dbms": "ACID Transactions (commit/rollback)"},
-                    {"member": "Member 4", "file": "BillingAndComplaintModule.java", "oop": "Polymorphic Tariff Integration", "dbms": "SQL Aggregations SUM(amount)"}
-                  ]
-                }
-                """;
-            sendResponse(ex, 200, json, "application/json");
         }
     }
 

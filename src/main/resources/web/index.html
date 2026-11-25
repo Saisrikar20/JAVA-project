@@ -347,12 +347,6 @@
           Sign In to Portal
         </button>
       </form>
-
-      <div style="margin-top: 1.5rem; text-align: center; border-top: 1px solid var(--border); padding-top: 1rem;">
-        <button type="button" class="btn btn-outline btn-sm" style="width: 100%;" onclick="bypassToViva()">
-          Explore Architecture & Viva Guide (Read-Only)
-        </button>
-      </div>
     </div>
   </div>
 
@@ -384,7 +378,6 @@
       <div class="nav-tab active" id="tab-btn-admin" onclick="switchTab('admin')">Admin Dashboard</div>
       <div class="nav-tab" id="tab-btn-warden" onclick="switchTab('warden')">Warden Operations</div>
       <div class="nav-tab" id="tab-btn-student" onclick="switchTab('student')">Student Portal</div>
-      <div class="nav-tab" id="tab-btn-viva" onclick="switchTab('viva')">Viva Architecture Guide</div>
     </nav>
 
     <!-- Main Content Area -->
@@ -611,50 +604,7 @@
       </section>
 
 
-      <!-- ======================================================== -->
-      <!-- TAB 4: VIVA ARCHITECTURE GUIDE                           -->
-      <!-- ======================================================== -->
-      <section id="tab-viva" class="tab-content">
-        <div class="card">
-          <div class="card-header">
-            <h3>Academic Project Architecture: 4 Team Members & 8 Relational Tables</h3>
-            <span class="badge badge-success">3NF Normalized Relational Model</span>
-          </div>
-          <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
-            Every team member owns exactly <strong>2 relational database tables</strong> and defends one major <strong>OOP and DBMS subsystem</strong>:
-          </p>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-            <div class="concept-box">
-              <h4>Member 1: StudentModule.java</h4>
-              <p><strong>Tables:</strong> <code>1. users</code> and <code>2. students</code></p>
-              <p><strong>OOP Concepts:</strong> Inheritance (<code>User</code> base class extended by <code>Student</code> subclass) and Encapsulation with private attributes.</p>
-              <p><strong>DBMS Concepts:</strong> Parameterized SQL authentication using <code>PreparedStatement</code> to prevent SQL Injection.</p>
-            </div>
-
-            <div class="concept-box">
-              <h4>Member 2: RoomModule.java</h4>
-              <p><strong>Tables:</strong> <code>3. hostel_blocks</code> and <code>4. rooms</code></p>
-              <p><strong>OOP Concepts:</strong> Abstraction (abstract class <code>Room</code>) and Runtime Polymorphism (<code>StandardRoom</code>, <code>DeluxeRoom</code>, <code>ACRoom</code> overriding <code>calculateRent()</code>). Method Overloading: <code>searchRooms(int)</code> vs <code>searchRooms(String)</code>.</p>
-              <p><strong>DBMS Concepts:</strong> Capacity constraint verification and multi-block room inventory queries.</p>
-            </div>
-
-            <div class="concept-box">
-              <h4>Member 3: AllocationModule.java</h4>
-              <p><strong>Tables:</strong> <code>5. wardens</code> and <code>6. allocations</code></p>
-              <p><strong>OOP Concepts:</strong> Domain composition and business rule validation.</p>
-              <p><strong>DBMS Concepts:</strong> <strong>ACID Transactions</strong> managed via <code>setAutoCommit(false)</code>, room vacancy bounds check, atomic bed allocation, commit, and error rollback.</p>
-            </div>
-
-            <div class="concept-box">
-              <h4>Member 4: BillingAndComplaintModule.java</h4>
-              <p><strong>Tables:</strong> <code>7. fee_payments</code> and <code>8. complaints</code></p>
-              <p><strong>OOP Concepts:</strong> Integration with polymorphic room pricing and maintenance ticket state transitions.</p>
-              <p><strong>DBMS Concepts:</strong> Aggregate functions (<code>SUM(amount)</code>) for financial audits and complaint lifecycle tracking (<code>PENDING</code> to <code>RESOLVED</code>).</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </main>
   </div>
@@ -948,12 +898,6 @@
       } else {
         showToast(data.message || 'Invalid credentials. Please verify your login.', false);
       }
-    }
-
-    function bypassToViva() {
-      currentUser = { userId: 0, username: 'guest', role: 'ADMIN', fullName: 'Academic Evaluator', regNo: '', dept: '' };
-      enterAppView(currentUser);
-      switchTab('viva');
     }
 
     function handleLogout() {
