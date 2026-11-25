@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartHostel Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       /* Palette: #131B2B, #2F4A63, #5B91A3, #CFEAE0 */
@@ -26,237 +29,553 @@
       --danger: #b91c1c;
       --danger-light: #fee2e2;
 
-      --bg: #f4f7f6;
+      --bg: #f5f8f7;
       --card-bg: #ffffff;
       --text: #131B2B;
       --text-muted: #5B91A3;
-      --border: #d4e3dc;
-      --radius: 8px;
+      --border: rgba(47, 74, 99, 0.12);
+      --border-light: rgba(207, 234, 224, 0.6);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+      --shadow-xs: 0 1px 2px rgba(19, 27, 43, 0.04);
+      --shadow-sm: 0 2px 4px rgba(19, 27, 43, 0.04), 0 1px 2px rgba(19, 27, 43, 0.03);
+      --shadow-md: 0 6px 16px -2px rgba(19, 27, 43, 0.06), 0 2px 6px -1px rgba(19, 27, 43, 0.04);
+      --shadow-lg: 0 12px 28px -4px rgba(19, 27, 43, 0.08), 0 4px 10px -2px rgba(19, 27, 43, 0.04);
+      --shadow-xl: 0 25px 50px -12px rgba(19, 27, 43, 0.25);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-    /* Top Navigation Header */
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      background-image: radial-gradient(circle at 50% 0%, rgba(207, 234, 224, 0.45) 0%, rgba(245, 248, 247, 0.8) 40%, #f5f8f7 100%);
+      background-attachment: fixed;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', Consolas, Menlo, Monaco, monospace;
+    }
+
+    /* Top Navigation Header - Modern Glassmorphic */
     header {
-      background: var(--navy-dark);
+      background: rgba(19, 27, 43, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       color: white;
       padding: 0.85rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid var(--navy-steel);
+      border-bottom: 1px solid rgba(207, 234, 224, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .brand h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; color: #ffffff; }
-    .brand p { font-size: 0.8rem; color: var(--mint-mist); }
-    .header-right { display: flex; align-items: center; gap: 1rem; }
-    .user-pill {
-      background: var(--navy-steel);
-      color: var(--mint-mist);
-      border: 1px solid rgba(207, 234, 224, 0.25);
-      padding: 0.35rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+    .brand {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.85rem;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2F4A63 0%, #5B91A3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #CFEAE0;
+      border: 1px solid rgba(207, 234, 224, 0.3);
+      box-shadow: 0 4px 10px rgba(19, 27, 43, 0.4);
+      flex-shrink: 0;
+    }
+    .brand h1 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .brand p {
+      font-size: 0.74rem;
+      color: rgba(207, 234, 224, 0.75);
+      letter-spacing: 0.01em;
+    }
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(207, 234, 224, 0.12);
+      color: var(--mint-mist);
+      padding: 0.12rem 0.45rem;
+      border-radius: 9999px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(207, 234, 224, 0.25);
+    }
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mint-mist);
+      box-shadow: 0 0 0 2px rgba(91, 145, 163, 0.4);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(207, 234, 224, 0.6); }
+      70% { box-shadow: 0 0 0 5px rgba(207, 234, 224, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(207, 234, 224, 0); }
+    }
+    .header-right { display: flex; align-items: center; gap: 0.85rem; }
+    .user-pill {
+      background: rgba(47, 74, 99, 0.55);
+      color: var(--mint-mist);
+      border: 1px solid rgba(207, 234, 224, 0.2);
+      padding: 0.28rem 0.75rem 0.28rem 0.35rem;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      backdrop-filter: blur(8px);
+    }
+    .user-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-muted), var(--navy-steel));
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      border: 1px solid rgba(207, 234, 224, 0.3);
     }
     .role-tag {
       font-weight: 700;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       padding: 0.15rem 0.45rem;
       border-radius: 4px;
       text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
     .role-tag.ADMIN { background: var(--teal-muted); color: white; }
-    .role-tag.WARDEN { background: var(--navy-steel); color: var(--mint-mist); border: 1px solid var(--teal-muted); }
+    .role-tag.WARDEN { background: var(--navy-steel); color: var(--mint-mist); border: 1px solid rgba(207, 234, 224, 0.3); }
     .role-tag.STUDENT { background: var(--mint-mist); color: var(--navy-dark); }
+    .logout-btn {
+      color: var(--mint-mist) !important;
+      border-color: rgba(91, 145, 163, 0.5) !important;
+      background: rgba(47, 74, 99, 0.2) !important;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .logout-btn:hover {
+      background: rgba(91, 145, 163, 0.3) !important;
+      border-color: var(--mint-mist) !important;
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
 
-    /* Secondary Navigation Bar */
-    .nav-tabs {
+    /* Secondary Navigation Bar - Modern Segmented Control */
+    .nav-tabs-bar {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
+      padding: 0.65rem 2rem;
       display: flex;
-      padding: 0 2rem;
-      gap: 0.5rem;
+      align-items: center;
+    }
+    .nav-segmented {
+      display: inline-flex;
+      background: rgba(47, 74, 99, 0.07);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      gap: 4px;
     }
     .nav-tab {
-      padding: 0.9rem 1.25rem;
+      padding: 0.55rem 1.15rem;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s ease;
+      font-size: 0.84rem;
+      color: var(--teal-muted);
+      border: none;
+      background: transparent;
+      border-radius: 7px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
     }
-    .nav-tab:hover { color: var(--navy-steel); }
+    .nav-tab:hover {
+      color: var(--navy-dark);
+      background: rgba(255, 255, 255, 0.5);
+    }
     .nav-tab.active {
       color: var(--navy-dark);
-      border-bottom-color: var(--navy-steel);
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(19, 27, 43, 0.08);
+      font-weight: 700;
     }
 
     /* Main Container */
     main { padding: 2rem; max-width: 1250px; margin: 0 auto; }
     .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+    .tab-content.active { display: block; animation: slideUpFade 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* Action Toolbar */
     .action-toolbar {
-      background: white;
+      background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
+      border-radius: var(--radius-lg);
+      padding: 1.15rem 1.4rem;
       margin-bottom: 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
+      box-shadow: var(--shadow-xs);
     }
     .action-buttons { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
-    /* KPI Summary Cards */
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    .kpi-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--navy-steel);
-      border-radius: var(--radius);
-      padding: 1.25rem;
+    /* KPI Summary Cards - Modern Elevation & Header */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.15rem;
+      margin-bottom: 1.5rem;
     }
-    .kpi-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.4rem; }
-    .kpi-value { font-size: 1.6rem; font-weight: 700; color: var(--navy-dark); }
-    .kpi-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.35rem;
+      box-shadow: var(--shadow-xs);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--navy-steel), var(--teal-muted));
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(91, 145, 163, 0.3);
+    }
+    .kpi-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
+    }
+    .kpi-title {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--teal-muted);
+      letter-spacing: 0.05em;
+    }
+    .kpi-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(207, 234, 224, 0.4);
+      color: var(--navy-steel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--navy-dark);
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+    .kpi-sub {
+      font-size: 0.74rem;
+      color: var(--teal-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .kpi-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--teal-muted);
+      display: inline-block;
+    }
 
     /* Cards & Containers */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       padding: 1.5rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 1px 3px rgba(19, 27, 43, 0.04);
+      box-shadow: var(--shadow-xs);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-sm);
+      border-color: rgba(47, 74, 99, 0.18);
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.6rem;
+      margin-bottom: 1.1rem;
+      border-bottom: 1px solid rgba(47, 74, 99, 0.08);
+      padding-bottom: 0.75rem;
     }
-    .card-header h3 { font-size: 1.1rem; color: var(--navy-dark); font-weight: 700; }
+    .card-header h3 {
+      font-size: 1.08rem;
+      color: var(--navy-dark);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
 
-    /* Tables */
-    .table-container { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
-    th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+    /* Tables - Modern Container */
+    .table-container {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(47, 74, 99, 0.08);
+    }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.86rem; }
+    th, td { padding: 0.85rem 1.15rem; border-bottom: 1px solid rgba(47, 74, 99, 0.06); }
     th {
       background: rgba(207, 234, 224, 0.35);
       color: var(--navy-steel);
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.5px;
-      border-bottom: 2px solid var(--border);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(47, 74, 99, 0.12);
     }
-    tr:hover { background-color: rgba(207, 234, 224, 0.18); }
-
-    /* Badges */
-    .badge {
-      display: inline-block;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
+    tr:hover { background-color: rgba(207, 234, 224, 0.15); }
+    tr:last-child td { border-bottom: none; }
+    code {
+      background: rgba(47, 74, 99, 0.07);
+      color: var(--navy-steel);
+      padding: 0.15rem 0.45rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
       font-weight: 600;
+      border: 1px solid rgba(47, 74, 99, 0.1);
+    }
+
+    /* Badges - Modern Status Pills with Dots */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.22rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .badge::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
     }
     .badge-success { background: var(--mint-mist); color: var(--navy-dark); }
-    .badge-warning { background: var(--warning-light); color: var(--warning); }
+    .badge-success::before { background: var(--navy-steel); }
     .badge-primary { background: rgba(47, 74, 99, 0.12); color: var(--navy-steel); }
+    .badge-primary::before { background: var(--teal-muted); }
+    .badge-warning { background: var(--warning-light); color: var(--warning); }
+    .badge-warning::before { background: var(--warning); }
     .badge-danger { background: var(--danger-light); color: var(--danger); }
+    .badge-danger::before { background: var(--danger); }
 
-    /* Buttons */
+    /* Buttons - Modern Depth & Micro-interactions */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.55rem 1rem;
-      font-size: 0.88rem;
+      gap: 0.4rem;
+      padding: 0.52rem 0.95rem;
+      font-size: 0.84rem;
       font-weight: 600;
-      border-radius: 6px;
+      letter-spacing: 0.01em;
+      border-radius: var(--radius-md);
       border: 1px solid transparent;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       text-decoration: none;
     }
-    .btn-primary { background: var(--navy-steel); color: white; }
-    .btn-primary:hover { background: var(--navy-dark); }
-    .btn-success { background: var(--teal-muted); color: white; }
-    .btn-success:hover { background: var(--navy-steel); }
+    .btn-primary {
+      background: var(--navy-steel);
+      color: white;
+      box-shadow: 0 2px 4px rgba(47, 74, 99, 0.2);
+    }
+    .btn-primary:hover {
+      background: var(--navy-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(19, 27, 43, 0.25);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-success {
+      background: var(--teal-muted);
+      color: white;
+      box-shadow: 0 2px 4px rgba(91, 145, 163, 0.2);
+    }
+    .btn-success:hover {
+      background: var(--navy-steel);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(47, 74, 99, 0.25);
+    }
+    .btn-success:active { transform: translateY(0); }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--navy-steel);
+    }
+    .btn-outline:hover {
+      background: rgba(207, 234, 224, 0.35);
+      color: var(--navy-dark);
+      border-color: var(--teal-muted);
+    }
     .btn-warning { background: var(--warning); color: white; }
     .btn-warning:hover { background: #92400e; }
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: #991b1b; }
-    .btn-outline { background: transparent; border-color: var(--border); color: var(--navy-steel); }
-    .btn-outline:hover { background: rgba(207, 234, 224, 0.35); color: var(--navy-dark); }
-    .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.78rem; }
+    .btn-sm { padding: 0.32rem 0.65rem; font-size: 0.76rem; border-radius: var(--radius-sm); }
 
-    /* Form Controls */
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--navy-steel); }
+    /* Form Controls - Modern Inputs & Prefixes */
+    .form-group { margin-bottom: 1.15rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--navy-steel);
+      letter-spacing: 0.01em;
+    }
     .form-control {
       width: 100%;
-      padding: 0.55rem 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
+      border: 1px solid #d4e3dc;
+      border-radius: var(--radius-md);
       font-size: 0.88rem;
       color: var(--navy-dark);
       outline: none;
+      background: #ffffff;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .form-control:focus { border-color: var(--teal-muted); box-shadow: 0 0 0 3px rgba(91, 145, 163, 0.22); }
+    .form-control:focus {
+      border-color: var(--teal-muted);
+      box-shadow: 0 0 0 3px rgba(91, 145, 163, 0.22);
+    }
+    .input-with-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .input-with-icon .input-icon {
+      position: absolute;
+      left: 0.85rem;
+      color: var(--teal-muted);
+      pointer-events: none;
+    }
+    .input-with-icon input {
+      padding-left: 2.35rem;
+    }
 
-    /* Modals for Action Flows */
+    /* Modals for Action Flows - Modern Glass Backdrop & Elevation */
     .modal-backdrop {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(19, 27, 43, 0.75);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      padding: 1rem;
+      padding: 1.5rem;
     }
     .modal-backdrop.active { display: flex; animation: fadeIn 0.15s ease; }
     .modal-box {
       background: #ffffff !important;
       border: 1px solid var(--mint-mist);
-      border-radius: var(--radius);
+      border-radius: var(--radius-xl);
       width: 100%;
-      max-width: 550px;
-      box-shadow: 0 25px 50px -12px rgba(19, 27, 43, 0.45);
+      max-width: 520px;
+      box-shadow: var(--shadow-xl);
       overflow: hidden;
       position: relative;
       z-index: 10000;
+      animation: modalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
     .modal-box form {
       background: #ffffff;
       margin: 0;
     }
     .modal-header {
-      background: rgba(207, 234, 224, 0.25);
-      padding: 1rem 1.5rem;
+      background: rgba(207, 234, 224, 0.22);
+      padding: 1.15rem 1.5rem;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .modal-header h4 { font-size: 1.1rem; color: var(--navy-dark); font-weight: 700; }
+    .modal-header h4 { font-size: 1.12rem; color: var(--navy-dark); font-weight: 700; letter-spacing: -0.01em; }
     .modal-close {
-      background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; line-height: 1;
+      background: none;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--teal-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .modal-close:hover {
+      background: rgba(47, 74, 99, 0.08);
+      color: var(--navy-dark);
     }
     .modal-body {
       background: #ffffff !important;
@@ -266,37 +585,55 @@
     }
     .modal-footer {
       background: rgba(207, 234, 224, 0.15);
-      padding: 0.85rem 1.5rem;
+      padding: 0.95rem 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: flex-end;
       gap: 0.75rem;
     }
 
-    /* Login View Screen */
+    /* Login View Screen - Ambient Mesh & Glassmorphism */
     #view-login {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top right, #2F4A63 0%, #131B2B 80%);
+      background: radial-gradient(at 15% 15%, rgba(91, 145, 163, 0.22) 0px, transparent 55%), radial-gradient(at 85% 10%, rgba(47, 74, 99, 0.35) 0px, transparent 50%), radial-gradient(at 50% 90%, rgba(207, 234, 224, 0.12) 0px, transparent 55%), #131B2B;
       padding: 2rem;
+      position: relative;
+      overflow: hidden;
     }
     .login-container {
-      background: white;
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-xl);
       width: 100%;
-      max-width: 440px;
-      padding: 2.25rem;
+      max-width: 420px;
+      padding: 2.5rem;
       border: 1px solid rgba(207, 234, 224, 0.4);
-      box-shadow: 0 25px 50px -12px rgba(19, 27, 43, 0.5);
+      box-shadow: 0 25px 60px -12px rgba(19, 27, 43, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 10;
     }
     .login-logo {
       text-align: center;
-      margin-bottom: 1.75rem;
+      margin-bottom: 2rem;
     }
-    .login-logo h2 { font-size: 1.5rem; color: var(--navy-dark); font-weight: 800; letter-spacing: -0.5px; }
-    .login-logo p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .login-badge-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy-steel), var(--navy-dark));
+      color: var(--mint-mist);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      border: 1.5px solid rgba(207, 234, 224, 0.35);
+      box-shadow: 0 8px 18px rgba(19, 27, 43, 0.25);
+    }
+    .login-logo h2 { font-size: 1.6rem; color: var(--navy-dark); font-weight: 800; letter-spacing: -0.03em; }
+    .login-logo p { font-size: 0.82rem; color: var(--teal-muted); margin-top: 0.3rem; }
 
     /* Floating Corner Action Button (Demo Accounts) */
     .corner-fab {
@@ -306,63 +643,70 @@
       z-index: 500;
     }
     .fab-circle-btn {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       background: var(--navy-steel);
       color: var(--mint-mist);
       border: 2px solid var(--mint-mist);
-      box-shadow: 0 10px 25px rgba(19, 27, 43, 0.4);
+      box-shadow: 0 10px 25px rgba(19, 27, 43, 0.45), 0 0 0 4px rgba(207, 234, 224, 0.15);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .fab-circle-btn:hover {
       background: var(--teal-muted);
       color: white;
-      transform: scale(1.08);
-      box-shadow: 0 14px 28px rgba(19, 27, 43, 0.5);
+      transform: scale(1.08) rotate(5deg);
+      box-shadow: 0 14px 30px rgba(19, 27, 43, 0.55), 0 0 0 6px rgba(207, 234, 224, 0.25);
     }
     .fab-dropdown {
       position: absolute;
-      bottom: 64px;
+      bottom: 68px;
       right: 0;
-      background: white;
+      background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      box-shadow: 0 20px 25px -5px rgba(19, 27, 43, 0.35);
-      width: 250px;
-      padding: 0.5rem 0;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 40px -10px rgba(19, 27, 43, 0.4);
+      width: 270px;
       display: none;
-      animation: fadeIn 0.15s ease;
+      animation: modalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
     }
     .fab-dropdown.open { display: block; }
     .fab-dropdown-header {
-      padding: 0.65rem 1rem;
+      padding: 0.8rem 1.1rem;
       font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--navy-dark);
-      letter-spacing: 0.5px;
+      letter-spacing: 0.05em;
       background: var(--mint-mist);
       border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .fab-option {
-      padding: 0.7rem 1rem;
+      padding: 0.75rem 1.1rem;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
-      transition: background 0.15s;
-      border-bottom: 1px solid #edf5f2;
+      gap: 0.2rem;
+      transition: background 0.15s ease;
+      border-bottom: 1px solid rgba(47, 74, 99, 0.05);
     }
     .fab-option:last-child { border-bottom: none; }
     .fab-option:hover { background: rgba(207, 234, 224, 0.35); }
+    .fab-option-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     .fab-option-role { font-size: 0.88rem; font-weight: 700; color: var(--navy-dark); }
-    .fab-option-desc { font-size: 0.75rem; color: var(--text-muted); }
+    .fab-option-desc { font-size: 0.74rem; color: var(--teal-muted); }
 
     /* Concept boxes */
     .concept-box {
@@ -370,7 +714,7 @@
       background: rgba(207, 234, 224, 0.25);
       padding: 1rem;
       margin-bottom: 1rem;
-      border-radius: 0 6px 6px 0;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
     }
     .concept-box h4 { color: var(--navy-steel); margin-bottom: 0.25rem; font-size: 0.95rem; }
 
@@ -380,13 +724,14 @@
       bottom: 5.5rem;
       right: 2rem;
       padding: 0.85rem 1.25rem;
-      border-radius: 6px;
+      border-radius: var(--radius-md);
       color: white;
       font-weight: 600;
-      font-size: 0.9rem;
-      box-shadow: 0 10px 15px -3px rgba(19, 27, 43, 0.3);
+      font-size: 0.88rem;
+      box-shadow: var(--shadow-lg);
       display: none;
       z-index: 9999;
+      animation: modalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
@@ -398,21 +743,44 @@
   <div id="view-login">
     <div class="login-container">
       <div class="login-logo">
-        <h2>Smart Hostel System</h2>
+        <div class="login-badge-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </div>
+        <h2>SmartHostel</h2>
+        <p>Enterprise Residence Management Portal</p>
       </div>
 
       <!-- Login Form -->
       <form onsubmit="handleLoginSubmit(event)">
         <div class="form-group">
           <label>Username</label>
-          <input type="text" id="login-username" class="form-control" placeholder="Enter username (e.g. admin)" required autofocus>
+          <div class="input-with-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="input-icon">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="login-username" class="form-control" placeholder="Enter username (e.g. admin)" required autofocus>
+          </div>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="login-password" class="form-control" placeholder="Enter password (default: 123)" required>
+          <div class="input-with-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="input-icon">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" id="login-password" class="form-control" placeholder="Enter password (default: 123)" required>
+          </div>
         </div>
         <button type="submit" id="btn-login" class="btn btn-primary" style="width: 100%; padding: 0.75rem; margin-top: 0.5rem;">
           Sign In to Portal
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </button>
       </form>
     </div>
@@ -420,26 +788,41 @@
     <!-- Floating Circular Corner Action for Demo Roles -->
     <div class="corner-fab" id="corner-fab">
       <div class="fab-dropdown" id="fab-dropdown">
-        <div class="fab-dropdown-header">Select Demo Role</div>
+        <div class="fab-dropdown-header">
+          <span>Select Demo Role</span>
+          <span style="font-size: 0.65rem; color: var(--navy-steel); font-weight: 700;">1-Click</span>
+        </div>
         <div class="fab-option" onclick="selectDemoRole('admin', '123', 'Admin')">
-          <span class="fab-option-role">Admin</span>
+          <div class="fab-option-title-row">
+            <span class="fab-option-role">Admin</span>
+            <span class="role-tag ADMIN" style="font-size: 0.62rem;">FULL ACCESS</span>
+          </div>
           <span class="fab-option-desc">Dr. Ramanathan (admin / 123)</span>
         </div>
         <div class="fab-option" onclick="selectDemoRole('warden', '123', 'Warden')">
-          <span class="fab-option-role">Warden</span>
+          <div class="fab-option-title-row">
+            <span class="fab-option-role">Warden</span>
+            <span class="role-tag WARDEN" style="font-size: 0.62rem;">OPS</span>
+          </div>
           <span class="fab-option-desc">Prof. Rajesh Sharma (warden / 123)</span>
         </div>
         <div class="fab-option" onclick="selectDemoRole('rahul', '123', 'Student (Rahul)')">
-          <span class="fab-option-role">Student</span>
+          <div class="fab-option-title-row">
+            <span class="fab-option-role">Student (Rahul)</span>
+            <span class="role-tag STUDENT" style="font-size: 0.62rem;">RESIDENT</span>
+          </div>
           <span class="fab-option-desc">Rahul Verma (rahul / 123)</span>
         </div>
         <div class="fab-option" onclick="selectDemoRole('ananya', '123', 'Student (Ananya)')">
-          <span class="fab-option-role">Student</span>
+          <div class="fab-option-title-row">
+            <span class="fab-option-role">Student (Ananya)</span>
+            <span class="role-tag STUDENT" style="font-size: 0.62rem;">RESIDENT</span>
+          </div>
           <span class="fab-option-desc">Ananya Iyer (ananya / 123)</span>
         </div>
       </div>
       <button type="button" class="fab-circle-btn" onclick="toggleFabMenu()" title="Select Demo Role" aria-label="Select Demo Role">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
@@ -456,24 +839,63 @@
     <!-- Top Application Header -->
     <header>
       <div class="brand">
-        <h1>Smart Hostel Management System</h1>
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <h1>SmartHostel</h1>
+            <span class="live-pill"><span class="pulse-dot"></span>OPERATIONAL</span>
+          </div>
+          <p>Enterprise Campus Residence Management</p>
+        </div>
       </div>
       <div class="header-right">
         <div class="user-pill">
+          <span class="user-avatar" id="user-avatar-initials">DR</span>
           <span id="user-display-name">Dr. Ramanathan</span>
           <span id="user-display-role" class="role-tag ADMIN">ADMIN</span>
         </div>
-        <button type="button" class="btn btn-outline btn-sm" style="color: var(--mint-mist); border-color: var(--teal-muted);" onclick="handleLogout()">
+        <button type="button" class="btn btn-outline btn-sm logout-btn" onclick="handleLogout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
           Logout
         </button>
       </div>
     </header>
 
     <!-- Navigation Tabs Bar -->
-    <nav class="nav-tabs">
-      <div class="nav-tab active" id="tab-btn-admin" onclick="switchTab('admin')">Admin Dashboard</div>
-      <div class="nav-tab" id="tab-btn-warden" onclick="switchTab('warden')">Warden Operations</div>
-      <div class="nav-tab" id="tab-btn-student" onclick="switchTab('student')">Student Portal</div>
+    <nav class="nav-tabs-bar">
+      <div class="nav-segmented">
+        <button type="button" class="nav-tab active" id="tab-btn-admin" onclick="switchTab('admin')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          Admin Dashboard
+        </button>
+        <button type="button" class="nav-tab" id="tab-btn-warden" onclick="switchTab('warden')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+          </svg>
+          Warden Operations
+        </button>
+        <button type="button" class="nav-tab" id="tab-btn-student" onclick="switchTab('student')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Student Portal
+        </button>
+      </div>
     </nav>
 
     <!-- Main Content Area -->
@@ -491,10 +913,18 @@
           </div>
           <div class="action-buttons">
             <button type="button" class="btn btn-primary" onclick="openModal('modal-register-student')">
-              + Register New Student
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Register New Student
             </button>
             <button type="button" class="btn btn-success" onclick="openModal('modal-add-room')">
-              + Add Hostel Room
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add Hostel Room
             </button>
           </div>
         </div>
@@ -502,19 +932,45 @@
         <!-- KPI Grid -->
         <div class="kpi-grid">
           <div class="kpi-card">
-            <div class="kpi-title">Total Registered Students</div>
+            <div class="kpi-card-header">
+              <span class="kpi-title">Total Registered Students</span>
+              <div class="kpi-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+            </div>
             <div class="kpi-value" id="kpi-students-count">0</div>
-            <div class="kpi-sub">Active Resident Directory</div>
+            <div class="kpi-sub"><span class="kpi-dot"></span>Active Resident Directory</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-title">Total Revenue Collected</div>
-            <div class="kpi-value" id="kpi-revenue-total" style="color: var(--success);">₹0.00</div>
-            <div class="kpi-sub">Audited Financial Receipts</div>
+            <div class="kpi-card-header">
+              <span class="kpi-title">Total Revenue Collected</span>
+              <div class="kpi-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-revenue-total" style="color: var(--teal-muted);">₹0.00</div>
+            <div class="kpi-sub"><span class="kpi-dot"></span>Audited Financial Receipts</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-title">Room Inventory Capacity</div>
+            <div class="kpi-card-header">
+              <span class="kpi-title">Room Inventory Capacity</span>
+              <div class="kpi-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+            </div>
             <div class="kpi-value" id="kpi-room-capacity">0 Beds</div>
-            <div class="kpi-sub">Total Bed Capacity Across All Blocks</div>
+            <div class="kpi-sub"><span class="kpi-dot"></span>Total Bed Capacity Across All Blocks</div>
           </div>
         </div>
 
@@ -522,7 +978,14 @@
         <div class="card">
           <div class="card-header">
             <h3>Registered Students Roster</h3>
-            <button class="btn btn-outline btn-sm" onclick="loadStudents()">Refresh</button>
+            <button class="btn btn-outline btn-sm" onclick="loadStudents()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              Refresh
+            </button>
           </div>
           <div class="table-container">
             <table id="table-students">
@@ -538,7 +1001,14 @@
         <div class="card">
           <div class="card-header">
             <h3>Fee Audit & Financial Collections</h3>
-            <button class="btn btn-outline btn-sm" onclick="loadFinancialAudit()">Refresh</button>
+            <button class="btn btn-outline btn-sm" onclick="loadFinancialAudit()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              Refresh
+            </button>
           </div>
           <div class="table-container">
             <table id="table-payments">
@@ -564,7 +1034,11 @@
           </div>
           <div class="action-buttons">
             <button type="button" class="btn btn-primary" onclick="openModal('modal-allocate-room')">
-              + Allocate Room
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Allocate Room
             </button>
           </div>
         </div>
@@ -588,7 +1062,14 @@
         <div class="card">
           <div class="card-header">
             <h3>Hostel Rooms & Live Bed Occupancy</h3>
-            <button class="btn btn-outline btn-sm" onclick="loadRooms()">Refresh</button>
+            <button class="btn btn-outline btn-sm" onclick="loadRooms()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              Refresh
+            </button>
           </div>
           <div class="table-container">
             <table id="table-rooms">
@@ -604,7 +1085,14 @@
         <div class="card">
           <div class="card-header">
             <h3>Active Bed Allocations</h3>
-            <button class="btn btn-outline btn-sm" onclick="loadAllocations()">Refresh</button>
+            <button class="btn btn-outline btn-sm" onclick="loadAllocations()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              Refresh
+            </button>
           </div>
           <div class="table-container">
             <table id="table-allocations">
@@ -620,7 +1108,14 @@
         <div class="card">
           <div class="card-header">
             <h3>Student Grievances & Maintenance Tickets</h3>
-            <button class="btn btn-outline btn-sm" onclick="loadComplaints()">Refresh</button>
+            <button class="btn btn-outline btn-sm" onclick="loadComplaints()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              Refresh
+            </button>
           </div>
           <div class="table-container">
             <table id="table-complaints">
@@ -646,10 +1141,20 @@
           </div>
           <div class="action-buttons">
             <button type="button" class="btn btn-success" onclick="openModal('modal-pay-fee')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
               Pay Semester Dues
             </button>
             <button type="button" class="btn btn-warning" onclick="openModal('modal-lodge-complaint')">
-              + Lodge Maintenance Ticket
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+              Lodge Maintenance Ticket
             </button>
           </div>
         </div>
@@ -663,20 +1168,45 @@
             Semester dues include 6 months room rent plus mess and utility charges.
           </p>
           <div class="kpi-grid" style="margin-bottom: 0;">
-            <div class="kpi-card" style="background: #ffffff;">
-              <div class="kpi-title">Total Invoiced Bill</div>
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <span class="kpi-title">Total Invoiced Bill</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                </div>
+              </div>
               <div class="kpi-value" id="student-bill-total" style="color: var(--primary);">₹0.00</div>
-              <div class="kpi-sub">Hostel Rent + Mess Dues</div>
+              <div class="kpi-sub"><span class="kpi-dot"></span>Hostel Rent + Mess Dues</div>
             </div>
-            <div class="kpi-card" style="background: #ffffff;">
-              <div class="kpi-title">Amount Paid to Date</div>
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <span class="kpi-title">Amount Paid to Date</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+              </div>
               <div class="kpi-value" id="student-bill-paid" style="color: var(--teal-muted);">₹0.00</div>
-              <div class="kpi-sub">Verified via Receipts</div>
+              <div class="kpi-sub"><span class="kpi-dot"></span>Verified via Receipts</div>
             </div>
-            <div class="kpi-card" style="background: #ffffff;">
-              <div class="kpi-title">Outstanding Balance Due</div>
+            <div class="kpi-card">
+              <div class="kpi-card-header">
+                <span class="kpi-title">Outstanding Balance</span>
+                <div class="kpi-icon-wrap">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                </div>
+              </div>
               <div class="kpi-value" id="student-bill-pending" style="color: var(--danger);">₹0.00</div>
-              <div class="kpi-sub">Pending Settlement</div>
+              <div class="kpi-sub"><span class="kpi-dot"></span>Pending Settlement</div>
             </div>
           </div>
         </div>
@@ -685,7 +1215,14 @@
         <div class="card">
           <div class="card-header">
             <h3>My Grievance & Maintenance Tickets</h3>
-            <button class="btn btn-outline btn-sm" onclick="loadStudentComplaints()">Refresh</button>
+            <button class="btn btn-outline btn-sm" onclick="loadStudentComplaints()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+              Refresh
+            </button>
           </div>
           <div class="table-container">
             <table id="table-student-complaints">
@@ -1019,6 +1556,11 @@
 
       // Update user pill in header
       document.getElementById('user-display-name').innerText = user.fullName;
+      const avatarEl = document.getElementById('user-avatar-initials');
+      if (avatarEl && user.fullName) {
+        const parts = user.fullName.trim().split(/\s+/);
+        avatarEl.innerText = parts.length > 1 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : parts[0].substring(0, 2).toUpperCase();
+      }
       const roleTag = document.getElementById('user-display-role');
       roleTag.innerText = user.role;
       roleTag.className = 'role-tag ' + user.role;
@@ -1029,19 +1571,19 @@
       const tabStudentBtn = document.getElementById('tab-btn-student');
 
       if (user.role === 'ADMIN') {
-        tabAdminBtn.style.display = 'block';
-        tabWardenBtn.style.display = 'block';
-        tabStudentBtn.style.display = 'block';
+        tabAdminBtn.style.display = 'inline-flex';
+        tabWardenBtn.style.display = 'inline-flex';
+        tabStudentBtn.style.display = 'inline-flex';
         switchTab('admin');
       } else if (user.role === 'WARDEN') {
         tabAdminBtn.style.display = 'none';
-        tabWardenBtn.style.display = 'block';
+        tabWardenBtn.style.display = 'inline-flex';
         tabStudentBtn.style.display = 'none';
         switchTab('warden');
       } else if (user.role === 'STUDENT') {
         tabAdminBtn.style.display = 'none';
         tabWardenBtn.style.display = 'none';
-        tabStudentBtn.style.display = 'block';
+        tabStudentBtn.style.display = 'inline-flex';
         switchTab('student');
       }
     }
