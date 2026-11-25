@@ -6,20 +6,31 @@
   <title>SmartHostel Management System</title>
   <style>
     :root {
-      --primary: #1e40af;
-      --primary-hover: #1d4ed8;
-      --primary-light: #eff6ff;
-      --success: #15803d;
-      --success-light: #dcfce7;
+      /* Palette: #131B2B, #2F4A63, #5B91A3, #CFEAE0 */
+      --navy-dark: #131B2B;       /* rgb(19, 27, 43) */
+      --navy-steel: #2F4A63;      /* rgb(47, 74, 99) */
+      --teal-muted: #5B91A3;      /* rgb(91, 145, 163) */
+      --mint-mist: #CFEAE0;       /* rgb(207, 234, 224) */
+
+      --primary: #2F4A63;
+      --primary-hover: #131B2B;
+      --primary-light: rgba(207, 234, 224, 0.4);
+      --secondary: #5B91A3;
+      --secondary-hover: #2F4A63;
+      --accent: #CFEAE0;
+
+      --success: #2F4A63;
+      --success-light: #CFEAE0;
       --warning: #b45309;
       --warning-light: #fef3c7;
       --danger: #b91c1c;
       --danger-light: #fee2e2;
-      --bg: #f8fafc;
+
+      --bg: #f4f7f6;
       --card-bg: #ffffff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
+      --text: #131B2B;
+      --text-muted: #5B91A3;
+      --border: #d4e3dc;
       --radius: 8px;
     }
 
@@ -28,19 +39,21 @@
 
     /* Top Navigation Header */
     header {
-      background: #1e293b;
+      background: var(--navy-dark);
       color: white;
       padding: 0.85rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #334155;
+      border-bottom: 2px solid var(--navy-steel);
     }
-    .brand h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
-    .brand p { font-size: 0.8rem; color: #94a3b8; }
+    .brand h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; color: #ffffff; }
+    .brand p { font-size: 0.8rem; color: var(--mint-mist); }
     .header-right { display: flex; align-items: center; gap: 1rem; }
     .user-pill {
-      background: #334155;
+      background: var(--navy-steel);
+      color: var(--mint-mist);
+      border: 1px solid rgba(207, 234, 224, 0.25);
       padding: 0.35rem 0.75rem;
       border-radius: 20px;
       font-size: 0.8rem;
@@ -55,9 +68,9 @@
       border-radius: 4px;
       text-transform: uppercase;
     }
-    .role-tag.ADMIN { background: #3b82f6; color: white; }
-    .role-tag.WARDEN { background: #f59e0b; color: white; }
-    .role-tag.STUDENT { background: #10b981; color: white; }
+    .role-tag.ADMIN { background: var(--teal-muted); color: white; }
+    .role-tag.WARDEN { background: var(--navy-steel); color: var(--mint-mist); border: 1px solid var(--teal-muted); }
+    .role-tag.STUDENT { background: var(--mint-mist); color: var(--navy-dark); }
 
     /* Secondary Navigation Bar */
     .nav-tabs {
@@ -76,10 +89,10 @@
       border-bottom: 3px solid transparent;
       transition: all 0.2s ease;
     }
-    .nav-tab:hover { color: var(--primary); }
+    .nav-tab:hover { color: var(--navy-steel); }
     .nav-tab.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
+      color: var(--navy-dark);
+      border-bottom-color: var(--navy-steel);
     }
 
     /* Main Container */
@@ -109,11 +122,12 @@
     .kpi-card {
       background: white;
       border: 1px solid var(--border);
+      border-top: 3px solid var(--navy-steel);
       border-radius: var(--radius);
       padding: 1.25rem;
     }
     .kpi-title { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.4rem; }
-    .kpi-value { font-size: 1.6rem; font-weight: 700; color: #1e293b; }
+    .kpi-value { font-size: 1.6rem; font-weight: 700; color: var(--navy-dark); }
     .kpi-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
 
     /* Cards & Containers */
@@ -123,7 +137,7 @@
       border-radius: var(--radius);
       padding: 1.5rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 3px rgba(19, 27, 43, 0.04);
     }
     .card-header {
       display: flex;
@@ -133,14 +147,22 @@
       border-bottom: 1px solid var(--border);
       padding-bottom: 0.6rem;
     }
-    .card-header h3 { font-size: 1.1rem; color: #1e293b; font-weight: 700; }
+    .card-header h3 { font-size: 1.1rem; color: var(--navy-dark); font-weight: 700; }
 
     /* Tables */
     .table-container { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
     th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
-    th { background: #f8fafc; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
-    tr:hover { background-color: #f8fafc; }
+    th {
+      background: rgba(207, 234, 224, 0.35);
+      color: var(--navy-steel);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--border);
+    }
+    tr:hover { background-color: rgba(207, 234, 224, 0.18); }
 
     /* Badges */
     .badge {
@@ -150,9 +172,9 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
-    .badge-success { background: var(--success-light); color: var(--success); }
+    .badge-success { background: var(--mint-mist); color: var(--navy-dark); }
     .badge-warning { background: var(--warning-light); color: var(--warning); }
-    .badge-primary { background: var(--primary-light); color: var(--primary); }
+    .badge-primary { background: rgba(47, 74, 99, 0.12); color: var(--navy-steel); }
     .badge-danger { background: var(--danger-light); color: var(--danger); }
 
     /* Buttons */
@@ -169,37 +191,38 @@
       transition: all 0.15s ease;
       text-decoration: none;
     }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-success { background: var(--success); color: white; }
-    .btn-success:hover { background: #166534; }
+    .btn-primary { background: var(--navy-steel); color: white; }
+    .btn-primary:hover { background: var(--navy-dark); }
+    .btn-success { background: var(--teal-muted); color: white; }
+    .btn-success:hover { background: var(--navy-steel); }
     .btn-warning { background: var(--warning); color: white; }
     .btn-warning:hover { background: #92400e; }
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: #991b1b; }
-    .btn-outline { background: transparent; border-color: var(--border); color: #334155; }
-    .btn-outline:hover { background: #f1f5f9; }
+    .btn-outline { background: transparent; border-color: var(--border); color: var(--navy-steel); }
+    .btn-outline:hover { background: rgba(207, 234, 224, 0.35); color: var(--navy-dark); }
     .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.78rem; }
 
     /* Form Controls */
     .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; color: #334155; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--navy-steel); }
     .form-control {
       width: 100%;
       padding: 0.55rem 0.75rem;
       border: 1px solid var(--border);
       border-radius: 6px;
       font-size: 0.88rem;
+      color: var(--navy-dark);
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.12); }
+    .form-control:focus { border-color: var(--teal-muted); box-shadow: 0 0 0 3px rgba(91, 145, 163, 0.22); }
 
     /* Modals for Action Flows */
     .modal-backdrop {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(19, 27, 43, 0.75);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -210,11 +233,11 @@
     .modal-backdrop.active { display: flex; animation: fadeIn 0.15s ease; }
     .modal-box {
       background: #ffffff !important;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--mint-mist);
       border-radius: var(--radius);
       width: 100%;
       max-width: 550px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+      box-shadow: 0 25px 50px -12px rgba(19, 27, 43, 0.45);
       overflow: hidden;
       position: relative;
       z-index: 10000;
@@ -224,14 +247,14 @@
       margin: 0;
     }
     .modal-header {
-      background: #f8fafc;
+      background: rgba(207, 234, 224, 0.25);
       padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .modal-header h4 { font-size: 1.1rem; color: #1e293b; font-weight: 700; }
+    .modal-header h4 { font-size: 1.1rem; color: var(--navy-dark); font-weight: 700; }
     .modal-close {
       background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; line-height: 1;
     }
@@ -242,7 +265,7 @@
       overflow-y: auto;
     }
     .modal-footer {
-      background: #f8fafc;
+      background: rgba(207, 234, 224, 0.15);
       padding: 0.85rem 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
@@ -256,7 +279,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background: radial-gradient(circle at top right, #2F4A63 0%, #131B2B 80%);
       padding: 2rem;
     }
     .login-container {
@@ -265,13 +288,14 @@
       width: 100%;
       max-width: 440px;
       padding: 2.25rem;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+      border: 1px solid rgba(207, 234, 224, 0.4);
+      box-shadow: 0 25px 50px -12px rgba(19, 27, 43, 0.5);
     }
     .login-logo {
       text-align: center;
       margin-bottom: 1.75rem;
     }
-    .login-logo h2 { font-size: 1.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
+    .login-logo h2 { font-size: 1.5rem; color: var(--navy-dark); font-weight: 800; letter-spacing: -0.5px; }
     .login-logo p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem; }
 
     /* Floating Corner Action Button (Demo Accounts) */
@@ -285,10 +309,10 @@
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      background: #1e40af;
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      background: var(--navy-steel);
+      color: var(--mint-mist);
+      border: 2px solid var(--mint-mist);
+      box-shadow: 0 10px 25px rgba(19, 27, 43, 0.4);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -296,9 +320,10 @@
       transition: all 0.2s ease;
     }
     .fab-circle-btn:hover {
-      background: #1d4ed8;
+      background: var(--teal-muted);
+      color: white;
       transform: scale(1.08);
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 14px 28px rgba(19, 27, 43, 0.5);
     }
     .fab-dropdown {
       position: absolute;
@@ -307,7 +332,7 @@
       background: white;
       border: 1px solid var(--border);
       border-radius: 10px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 20px 25px -5px rgba(19, 27, 43, 0.35);
       width: 250px;
       padding: 0.5rem 0;
       display: none;
@@ -320,9 +345,9 @@
       font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: #64748b;
+      color: var(--navy-dark);
       letter-spacing: 0.5px;
-      background: #f8fafc;
+      background: var(--mint-mist);
       border-bottom: 1px solid var(--border);
     }
     .fab-option {
@@ -332,22 +357,22 @@
       flex-direction: column;
       gap: 0.15rem;
       transition: background 0.15s;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #edf5f2;
     }
     .fab-option:last-child { border-bottom: none; }
-    .fab-option:hover { background: #eff6ff; }
-    .fab-option-role { font-size: 0.88rem; font-weight: 700; color: #1e293b; }
-    .fab-option-desc { font-size: 0.75rem; color: #64748b; }
+    .fab-option:hover { background: rgba(207, 234, 224, 0.35); }
+    .fab-option-role { font-size: 0.88rem; font-weight: 700; color: var(--navy-dark); }
+    .fab-option-desc { font-size: 0.75rem; color: var(--text-muted); }
 
     /* Concept boxes */
     .concept-box {
-      border-left: 4px solid var(--primary);
-      background: #eff6ff;
+      border-left: 4px solid var(--navy-steel);
+      background: rgba(207, 234, 224, 0.25);
       padding: 1rem;
       margin-bottom: 1rem;
       border-radius: 0 6px 6px 0;
     }
-    .concept-box h4 { color: #1d4ed8; margin-bottom: 0.25rem; font-size: 0.95rem; }
+    .concept-box h4 { color: var(--navy-steel); margin-bottom: 0.25rem; font-size: 0.95rem; }
 
     /* Toast Notification */
     #toast {
@@ -359,7 +384,7 @@
       color: white;
       font-weight: 600;
       font-size: 0.9rem;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 15px -3px rgba(19, 27, 43, 0.3);
       display: none;
       z-index: 9999;
     }
@@ -438,7 +463,7 @@
           <span id="user-display-name">Dr. Ramanathan</span>
           <span id="user-display-role" class="role-tag ADMIN">ADMIN</span>
         </div>
-        <button type="button" class="btn btn-outline btn-sm" style="color: white; border-color: #475569;" onclick="handleLogout()">
+        <button type="button" class="btn btn-outline btn-sm" style="color: var(--mint-mist); border-color: var(--teal-muted);" onclick="handleLogout()">
           Logout
         </button>
       </div>
@@ -461,7 +486,7 @@
         <!-- Action Flow Bar -->
         <div class="action-toolbar">
           <div>
-            <h3 style="font-size: 1.15rem; color: #1e293b; font-weight: 700;">Administrator Operations</h3>
+            <h3 style="font-size: 1.15rem; color: var(--navy-dark); font-weight: 700;">Administrator Operations</h3>
             <p style="font-size: 0.8rem; color: var(--text-muted);">Manage student identity records, create rooms, and audit finances</p>
           </div>
           <div class="action-buttons">
@@ -534,7 +559,7 @@
         <!-- Action Flow Bar -->
         <div class="action-toolbar">
           <div>
-            <h3 style="font-size: 1.15rem; color: #1e293b; font-weight: 700;">Warden Supervisory Desk</h3>
+            <h3 style="font-size: 1.15rem; color: var(--navy-dark); font-weight: 700;">Warden Supervisory Desk</h3>
             <p style="font-size: 0.8rem; color: var(--text-muted);">Manage room allocations, verify vacancies, and resolve student complaints</p>
           </div>
           <div class="action-buttons">
@@ -547,7 +572,7 @@
         <!-- Room Search & Filter Bar -->
         <div class="card" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
           <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-            <label style="font-size: 0.85rem; font-weight: 700; color: #334155;">Search & Filter Rooms:</label>
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--navy-steel);">Search & Filter Rooms:</label>
             <select id="filter-type" class="form-control" style="max-width: 180px;" onchange="loadRooms()">
               <option value="">All Room Types</option>
               <option value="STANDARD">STANDARD</option>
@@ -616,7 +641,7 @@
         <!-- Student Identity Header -->
         <div class="action-toolbar">
           <div>
-            <h3 id="student-portal-name" style="font-size: 1.15rem; color: #1e293b; font-weight: 700;">Student Resident Portal</h3>
+            <h3 id="student-portal-name" style="font-size: 1.15rem; color: var(--navy-dark); font-weight: 700;">Student Resident Portal</h3>
             <p id="student-portal-meta" style="font-size: 0.8rem; color: var(--text-muted);">Registration No: -- | Department: --</p>
           </div>
           <div class="action-buttons">
@@ -638,17 +663,17 @@
             Semester dues include 6 months room rent plus mess and utility charges.
           </p>
           <div class="kpi-grid" style="margin-bottom: 0;">
-            <div class="kpi-card" style="background: #f8fafc;">
+            <div class="kpi-card" style="background: #ffffff;">
               <div class="kpi-title">Total Invoiced Bill</div>
               <div class="kpi-value" id="student-bill-total" style="color: var(--primary);">₹0.00</div>
               <div class="kpi-sub">Hostel Rent + Mess Dues</div>
             </div>
-            <div class="kpi-card" style="background: #f8fafc;">
+            <div class="kpi-card" style="background: #ffffff;">
               <div class="kpi-title">Amount Paid to Date</div>
-              <div class="kpi-value" id="student-bill-paid" style="color: var(--success);">₹0.00</div>
+              <div class="kpi-value" id="student-bill-paid" style="color: var(--teal-muted);">₹0.00</div>
               <div class="kpi-sub">Verified via Receipts</div>
             </div>
-            <div class="kpi-card" style="background: #f8fafc;">
+            <div class="kpi-card" style="background: #ffffff;">
               <div class="kpi-title">Outstanding Balance Due</div>
               <div class="kpi-value" id="student-bill-pending" style="color: var(--danger);">₹0.00</div>
               <div class="kpi-sub">Pending Settlement</div>
@@ -889,7 +914,7 @@
       <form onsubmit="handleResolveComplaintSubmit(event)">
         <div class="modal-body">
           <input type="hidden" id="resolve-complaint-id">
-          <p style="font-size: 0.85rem; color: #1e293b; margin-bottom: 1rem;">
+          <p style="font-size: 0.85rem; color: var(--navy-dark); margin-bottom: 1rem;">
             Resolving Ticket ID: <strong id="resolve-ticket-display">#--</strong>
           </p>
           <div class="form-group">
@@ -1051,7 +1076,8 @@
     function showToast(msg, isSuccess = true) {
       const t = document.getElementById('toast');
       t.innerText = msg;
-      t.style.backgroundColor = isSuccess ? '#15803d' : '#b91c1c';
+      t.style.backgroundColor = isSuccess ? '#2F4A63' : '#b91c1c';
+      t.style.border = isSuccess ? '1px solid #5B91A3' : '1px solid #ef4444';
       t.style.display = 'block';
       setTimeout(() => { t.style.display = 'none'; }, 3200);
     }
