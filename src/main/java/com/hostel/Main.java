@@ -23,7 +23,6 @@ public class Main {
         while (true) {
             System.out.println("\n========================================================");
             System.out.println("       SMART HOSTEL MANAGEMENT SYSTEM");
-            System.out.println("   Integrated OOP & DBMS Project (4 Members, 8 Tables)");
             System.out.println("========================================================");
             System.out.println("   Web Application: http://localhost:8080 (Open in Browser)");
             System.out.println("   Terminal CLI Options:");
