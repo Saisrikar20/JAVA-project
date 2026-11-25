@@ -67,13 +67,13 @@ public class Main {
     private static void adminMenu() {
         while (true) {
             System.out.println("\n--- ADMINISTRATOR MENU ---");
-            System.out.println("1. View All Students (Member 1)");
-            System.out.println("2. Register New Student (Member 1)");
-            System.out.println("3. View All Rooms & Tariffs (Member 2)");
-            System.out.println("4. Add New Room (Member 2)");
-            System.out.println("5. View Active Allocations (Member 3)");
-            System.out.println("6. View Fee Audit & Collections (Member 4)");
-            System.out.println("7. View All Complaints (Member 4)");
+            System.out.println("1. View All Students");
+            System.out.println("2. Register New Student");
+            System.out.println("3. View All Rooms & Tariffs");
+            System.out.println("4. Add New Room");
+            System.out.println("5. View Active Allocations");
+            System.out.println("6. View Fee Audit & Collections");
+            System.out.println("7. View All Complaints");
             System.out.println("8. Logout");
             System.out.print("Choice: ");
             int c = readInt(1, 8);
@@ -109,18 +109,18 @@ public class Main {
     private static void wardenMenu() {
         while (true) {
             System.out.println("\n--- WARDEN MENU ---");
-            System.out.println("1. View Rooms & Vacancies (Member 2)");
-            System.out.println("2. Search Rooms - Overloading Demo (Member 2)");
-            System.out.println("3. Allocate Room to Student - ACID Transaction (Member 3)");
-            System.out.println("4. Vacate Student from Room - ACID Transaction (Member 3)");
-            System.out.println("5. View All Active Allocations (Member 3)");
-            System.out.println("6. Resolve Complaint (Member 4)");
+            System.out.println("1. View Rooms & Vacancies");
+            System.out.println("2. Search Rooms");
+            System.out.println("3. Allocate Room to Student");
+            System.out.println("4. Vacate Student from Room");
+            System.out.println("5. View All Active Allocations");
+            System.out.println("6. Resolve Complaint");
             System.out.println("7. Logout");
             System.out.print("Choice: ");
             int c = readInt(1, 7);
             if (c == 1) roomMod.displayAllRooms();
             else if (c == 2) {
-                System.out.println("Search by: 1. Min Capacity (int) | 2. Room Type (String)");
+                System.out.println("Search by: 1. Min Capacity | 2. Room Type");
                 int mode = readInt(1, 2);
                 if (mode == 1) {
                     System.out.print("Enter capacity: ");
@@ -149,10 +149,10 @@ public class Main {
         Student s = studentMod.getStudent(studentId);
         while (true) {
             System.out.println("\n--- STUDENT PORTAL (" + s.getFullName() + ") ---");
-            System.out.println("1. View Profile & Reg No (Member 1)");
-            System.out.println("2. View Semester Fee Bill & Dues (Member 4 + Member 2 Polymorphism)");
-            System.out.println("3. Pay Fee (Member 4)");
-            System.out.println("4. Lodge Complaint (Member 4)");
+            System.out.println("1. View Profile & Reg No");
+            System.out.println("2. View Semester Fee Bill & Dues");
+            System.out.println("3. Pay Fee");
+            System.out.println("4. Lodge Complaint");
             System.out.println("5. Logout");
             System.out.print("Choice: ");
             int c = readInt(1, 5);

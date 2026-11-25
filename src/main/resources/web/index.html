@@ -539,20 +539,20 @@
           </div>
           <div class="action-buttons">
             <button type="button" class="btn btn-primary" onclick="openModal('modal-allocate-room')">
-              + Allocate Room (ACID Transaction)
+              + Allocate Room
             </button>
           </div>
         </div>
 
-        <!-- Room Search & Filter Bar (Method Overloading Demo) -->
+        <!-- Room Search & Filter Bar -->
         <div class="card" style="padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
           <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
             <label style="font-size: 0.85rem; font-weight: 700; color: #334155;">Search & Filter Rooms:</label>
             <select id="filter-type" class="form-control" style="max-width: 180px;" onchange="loadRooms()">
               <option value="">All Room Types</option>
-              <option value="STANDARD">STANDARD (1.00x)</option>
-              <option value="DELUXE">DELUXE (1.25x)</option>
-              <option value="AC">AC (1.50x)</option>
+              <option value="STANDARD">STANDARD</option>
+              <option value="DELUXE">DELUXE</option>
+              <option value="AC">AC</option>
             </select>
             <input type="number" id="filter-cap" class="form-control" style="max-width: 160px;" placeholder="Min Capacity" min="1" max="6" oninput="loadRooms()">
             <button type="button" class="btn btn-outline btn-sm" onclick="clearRoomFilters()">Reset Filters</button>
@@ -568,7 +568,7 @@
           <div class="table-container">
             <table id="table-rooms">
               <thead>
-                <tr><th>Room ID</th><th>Block</th><th>Room No</th><th>Type</th><th>Bed Occupancy</th><th>Base Rent</th><th>Polymorphic Rent</th><th>Status</th></tr>
+                <tr><th>Room ID</th><th>Block</th><th>Room No</th><th>Type</th><th>Bed Occupancy</th><th>Base Rent</th><th>Monthly Rent</th><th>Status</th></tr>
               </thead>
               <tbody></tbody>
             </table>
@@ -633,10 +633,9 @@
         <div class="card">
           <div class="card-header">
             <h3>Semester Financial Account & Fee Balance</h3>
-            <span class="badge badge-primary">Polymorphic Tariff Computation</span>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Semester dues formula: <code>(Room.calculateRent() * 6 Months) + ₹15,000 Mess Utility Fee</code>.
+            Semester dues include 6 months room rent plus mess and utility charges.
           </p>
           <div class="kpi-grid" style="margin-bottom: 0;">
             <div class="kpi-card" style="background: #f8fafc;">
@@ -762,11 +761,11 @@
             <input type="text" id="room-no" class="form-control" placeholder="e.g. K-301" required>
           </div>
           <div class="form-group">
-            <label>Room Category (Polymorphic Calculation)</label>
+            <label>Room Category</label>
             <select id="room-type" class="form-control">
-              <option value="STANDARD">STANDARD (Base rent 1.00x)</option>
-              <option value="DELUXE">DELUXE (Base rent 1.25x amenity factor)</option>
-              <option value="AC">AC (Base rent 1.50x cooling factor)</option>
+              <option value="STANDARD">STANDARD</option>
+              <option value="DELUXE">DELUXE</option>
+              <option value="AC">AC</option>
             </select>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
@@ -788,7 +787,7 @@
     </div>
   </div>
 
-  <!-- Modal 3: Allocate Room (ACID Transaction) -->
+  <!-- Modal 3: Allocate Room -->
   <div class="modal-backdrop" id="modal-allocate-room">
     <div class="modal-box">
       <div class="modal-header">
@@ -797,12 +796,6 @@
       </div>
       <form onsubmit="handleAllocateRoom(event)">
         <div class="modal-body">
-          <div class="concept-box" style="margin-bottom: 1rem;">
-            <h4>ACID Transaction Guard</h4>
-            <p style="font-size: 0.8rem; color: #1e3a8a;">
-              Executes under <code>setAutoCommit(false)</code>. Verifies room capacity, decrements vacancy, inserts allocation record, and executes <code>commit()</code>. Rolls back if capacity exceeded.
-            </p>
-          </div>
           <div class="form-group">
             <label>Select Registered Student</label>
             <select id="alloc-student" class="form-control" required></select>
@@ -814,7 +807,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" onclick="closeModal('modal-allocate-room')">Cancel</button>
-          <button type="submit" class="btn btn-primary">Execute Atomic Allocation</button>
+          <button type="submit" class="btn btn-primary">Allocate Room</button>
         </div>
       </form>
     </div>
@@ -1328,7 +1321,7 @@
       });
       const data = await res.json();
       if (data.success) {
-        showToast('Room allocated successfully via ACID Transaction!');
+        showToast('Room allocated successfully!');
         closeModal('modal-allocate-room');
         loadAllocations();
         loadRooms();
