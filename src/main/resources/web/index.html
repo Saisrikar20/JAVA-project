@@ -496,7 +496,7 @@
         <!-- Student Roster Card -->
         <div class="card">
           <div class="card-header">
-            <h3>Registered Students Roster (Table 1: users & Table 2: students)</h3>
+            <h3>Registered Students Roster</h3>
             <button class="btn btn-outline btn-sm" onclick="loadStudents()">Refresh</button>
           </div>
           <div class="table-container">
@@ -512,7 +512,7 @@
         <!-- Financial Audit Card -->
         <div class="card">
           <div class="card-header">
-            <h3>Fee Audit & Financial Collections (Table 7: fee_payments)</h3>
+            <h3>Fee Audit & Financial Collections</h3>
             <button class="btn btn-outline btn-sm" onclick="loadFinancialAudit()">Refresh</button>
           </div>
           <div class="table-container">
@@ -562,7 +562,7 @@
         <!-- Room Inventory Table -->
         <div class="card">
           <div class="card-header">
-            <h3>Hostel Rooms & Live Bed Occupancy (Table 3: blocks & Table 4: rooms)</h3>
+            <h3>Hostel Rooms & Live Bed Occupancy</h3>
             <button class="btn btn-outline btn-sm" onclick="loadRooms()">Refresh</button>
           </div>
           <div class="table-container">
@@ -578,7 +578,7 @@
         <!-- Active Allocations Table -->
         <div class="card">
           <div class="card-header">
-            <h3>Active Bed Allocations (Table 5: wardens & Table 6: allocations)</h3>
+            <h3>Active Bed Allocations</h3>
             <button class="btn btn-outline btn-sm" onclick="loadAllocations()">Refresh</button>
           </div>
           <div class="table-container">
@@ -594,7 +594,7 @@
         <!-- Complaints Table -->
         <div class="card">
           <div class="card-header">
-            <h3>Student Grievances & Maintenance Tickets (Table 8: complaints)</h3>
+            <h3>Student Grievances & Maintenance Tickets</h3>
             <button class="btn btn-outline btn-sm" onclick="loadComplaints()">Refresh</button>
           </div>
           <div class="table-container">
@@ -689,13 +689,13 @@
   <div class="modal-backdrop" id="modal-register-student">
     <div class="modal-box">
       <div class="modal-header">
-        <h4>Register New Student (Member 1)</h4>
+        <h4>Register New Student</h4>
         <button class="modal-close" onclick="closeModal('modal-register-student')">&times;</button>
       </div>
       <form onsubmit="handleRegisterStudent(event)">
         <div class="modal-body">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Creates account in <code>users</code> and profile record in <code>students</code> (Inheritance & Encapsulation).
+            Create a new student account and resident profile.
           </p>
           <div class="form-group">
             <label>Full Student Name</label>
@@ -745,13 +745,13 @@
   <div class="modal-backdrop" id="modal-add-room">
     <div class="modal-box">
       <div class="modal-header">
-        <h4>Add New Hostel Room (Member 2)</h4>
+        <h4>Add New Hostel Room</h4>
         <button class="modal-close" onclick="closeModal('modal-add-room')">&times;</button>
       </div>
       <form onsubmit="handleAddRoom(event)">
         <div class="modal-body">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Adds a room into <code>rooms</code> table with polymorphic tariff overrides.
+            Configure room category, bed capacity, and base monthly rent.
           </p>
           <div class="form-group">
             <label>Hostel Residential Block</label>
@@ -792,7 +792,7 @@
   <div class="modal-backdrop" id="modal-allocate-room">
     <div class="modal-box">
       <div class="modal-header">
-        <h4>Allocate Bed to Student (Member 3)</h4>
+        <h4>Allocate Bed to Student</h4>
         <button class="modal-close" onclick="closeModal('modal-allocate-room')">&times;</button>
       </div>
       <form onsubmit="handleAllocateRoom(event)">
@@ -824,13 +824,13 @@
   <div class="modal-backdrop" id="modal-pay-fee">
     <div class="modal-box">
       <div class="modal-header">
-        <h4>Make Fee Payment (Member 4)</h4>
+        <h4>Make Fee Payment</h4>
         <button class="modal-close" onclick="closeModal('modal-pay-fee')">&times;</button>
       </div>
       <form onsubmit="handlePayFee(event)">
         <div class="modal-body">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Records payment in <code>fee_payments</code> table and adjusts outstanding balance.
+            Records payment in ledger and updates outstanding balance.
           </p>
           <div class="form-group">
             <label>Payment Amount (₹)</label>
@@ -856,13 +856,13 @@
   <div class="modal-backdrop" id="modal-lodge-complaint">
     <div class="modal-box">
       <div class="modal-header">
-        <h4>Lodge Maintenance Grievance (Member 4)</h4>
+        <h4>Lodge Maintenance Grievance</h4>
         <button class="modal-close" onclick="closeModal('modal-lodge-complaint')">&times;</button>
       </div>
       <form onsubmit="handleLodgeComplaint(event)">
         <div class="modal-body">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
-            Submits grievance ticket to Table 8 with initial state <code>PENDING</code>.
+            Submit maintenance ticket for review and resolution by warden staff.
           </p>
           <div class="form-group">
             <label>Issue Category</label>
@@ -1303,7 +1303,7 @@
       });
       const data = await res.json();
       if (data.success) {
-        showToast('Hostel Room created successfully into Table 4!');
+        showToast('Hostel Room created successfully!');
         closeModal('modal-add-room');
         e.target.reset();
         loadRooms();
@@ -1369,7 +1369,7 @@
       });
       const data = await res.json();
       if (data.success) {
-        showToast('Payment successful! Receipt recorded in Table 7.');
+        showToast('Payment successful! Receipt recorded.');
         closeModal('modal-pay-fee');
         loadStudentDashboard();
       } else {
@@ -1419,7 +1419,7 @@
       });
       const data = await res.json();
       if (data.success) {
-        showToast('Complaint marked as RESOLVED in Table 8!');
+        showToast('Complaint marked as RESOLVED!');
         closeModal('modal-resolve-complaint');
         loadComplaints();
       } else {
