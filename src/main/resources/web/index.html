@@ -274,15 +274,70 @@
     .login-logo h2 { font-size: 1.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
     .login-logo p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem; }
 
-    .quick-login-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.85rem;
-      margin-bottom: 1.25rem;
+    /* Floating Corner Action Button (Demo Accounts) */
+    .corner-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 500;
     }
-    .quick-login-title { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.5rem; }
-    .quick-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .fab-circle-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #1e40af;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .fab-circle-btn:hover {
+      background: #1d4ed8;
+      transform: scale(1.08);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
+    }
+    .fab-dropdown {
+      position: absolute;
+      bottom: 64px;
+      right: 0;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.35);
+      width: 250px;
+      padding: 0.5rem 0;
+      display: none;
+      animation: fadeIn 0.15s ease;
+      overflow: hidden;
+    }
+    .fab-dropdown.open { display: block; }
+    .fab-dropdown-header {
+      padding: 0.65rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+    }
+    .fab-option {
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      transition: background 0.15s;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .fab-option:last-child { border-bottom: none; }
+    .fab-option:hover { background: #eff6ff; }
+    .fab-option-role { font-size: 0.88rem; font-weight: 700; color: #1e293b; }
+    .fab-option-desc { font-size: 0.75rem; color: #64748b; }
 
     /* Concept boxes */
     .concept-box {
@@ -297,7 +352,7 @@
     /* Toast Notification */
     #toast {
       position: fixed;
-      bottom: 2rem;
+      bottom: 5.5rem;
       right: 2rem;
       padding: 0.85rem 1.25rem;
       border-radius: 6px;
@@ -321,17 +376,6 @@
         <h2>Smart Hostel System</h2>
       </div>
 
-      <!-- Quick Fill Role Selector (Demo Convenience) -->
-      <div class="quick-login-box">
-        <div class="quick-login-title">Quick Select Demo Account (1-Click Fill)</div>
-        <div class="quick-btn-grid">
-          <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('admin', '123')">Admin (Chief)</button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('warden', '123')">Warden (Rajesh)</button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('rahul', '123')">Student (Rahul)</button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="quickFill('ananya', '123')">Student (Ananya)</button>
-        </div>
-      </div>
-
       <!-- Login Form -->
       <form onsubmit="handleLoginSubmit(event)">
         <div class="form-group">
@@ -346,6 +390,35 @@
           Sign In to Portal
         </button>
       </form>
+    </div>
+
+    <!-- Floating Circular Corner Action for Demo Roles -->
+    <div class="corner-fab" id="corner-fab">
+      <div class="fab-dropdown" id="fab-dropdown">
+        <div class="fab-dropdown-header">Select Demo Role</div>
+        <div class="fab-option" onclick="selectDemoRole('admin', '123', 'Admin')">
+          <span class="fab-option-role">Admin</span>
+          <span class="fab-option-desc">Dr. Ramanathan (admin / 123)</span>
+        </div>
+        <div class="fab-option" onclick="selectDemoRole('warden', '123', 'Warden')">
+          <span class="fab-option-role">Warden</span>
+          <span class="fab-option-desc">Prof. Rajesh Sharma (warden / 123)</span>
+        </div>
+        <div class="fab-option" onclick="selectDemoRole('rahul', '123', 'Student (Rahul)')">
+          <span class="fab-option-role">Student</span>
+          <span class="fab-option-desc">Rahul Verma (rahul / 123)</span>
+        </div>
+        <div class="fab-option" onclick="selectDemoRole('ananya', '123', 'Student (Ananya)')">
+          <span class="fab-option-role">Student</span>
+          <span class="fab-option-desc">Ananya Iyer (ananya / 123)</span>
+        </div>
+      </div>
+      <button type="button" class="fab-circle-btn" onclick="toggleFabMenu()" title="Select Demo Role" aria-label="Select Demo Role">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -870,11 +943,28 @@
       document.getElementById('view-app').style.display = 'none';
     }
 
-    function quickFill(u, p) {
+    function toggleFabMenu() {
+      const dd = document.getElementById('fab-dropdown');
+      if (dd) dd.classList.toggle('open');
+    }
+
+    function selectDemoRole(u, p, label) {
       document.getElementById('login-username').value = u;
       document.getElementById('login-password').value = p;
+      const dd = document.getElementById('fab-dropdown');
+      if (dd) dd.classList.remove('open');
+      showToast('Selected ' + label + ' credentials');
       document.getElementById('btn-login').focus();
     }
+
+    // Close FAB dropdown when clicking anywhere outside
+    document.addEventListener('click', (e) => {
+      const fab = document.getElementById('corner-fab');
+      if (fab && !fab.contains(e.target)) {
+        const dd = document.getElementById('fab-dropdown');
+        if (dd) dd.classList.remove('open');
+      }
+    });
 
     async function handleLoginSubmit(e) {
       e.preventDefault();
