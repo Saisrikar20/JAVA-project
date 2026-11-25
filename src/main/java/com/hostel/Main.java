@@ -25,8 +25,8 @@ public class Main {
             System.out.println("       SMART HOSTEL MANAGEMENT SYSTEM");
             System.out.println("   Integrated OOP & DBMS Project (4 Members, 8 Tables)");
             System.out.println("========================================================");
-            System.out.println(" 🌐 Web Application: http://localhost:8080 (Open in Browser)");
-            System.out.println(" 💻 Terminal CLI Options:");
+            System.out.println("   Web Application: http://localhost:8080 (Open in Browser)");
+            System.out.println("   Terminal CLI Options:");
             System.out.println("   1. Login to Terminal CLI (Admin / Warden / Student)");
             System.out.println("   2. Exit");
             System.out.print("Select an option (1-2): ");
