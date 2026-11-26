@@ -109,11 +109,34 @@
 
 ## 📁 Source File Tree
 ```
-src/main/java/com/hostel/
-├── Database.java                    # Shared SQLite initialization for the 8 tables
-├── StudentModule.java               # Member 1's Code (Tables 1 & 2)
-├── RoomModule.java                  # Member 2's Code (Tables 3 & 4)
-├── AllocationModule.java            # Member 3's Code (Tables 5 & 6)
-├── BillingAndComplaintModule.java   # Member 4's Code (Tables 7 & 8)
-└── Main.java                        # CLI Coordinator Menu
+g:/java project/
+├── src/main/java/com/hostel/        # Java Domain & Service Layer
+│   ├── Database.java                # Shared SQLite/MySQL Connection & 8 Tables Setup
+│   ├── StudentModule.java           # Member 1's Code (Tables 1 & 2)
+│   ├── RoomModule.java              # Member 2's Code (Tables 3 & 4)
+│   ├── AllocationModule.java        # Member 3's Code (Tables 5 & 6)
+│   ├── BillingAndComplaintModule.java # Member 4's Code (Tables 7 & 8)
+│   ├── WebServer.java               # Embedded HTTP Web Server & REST API
+│   └── Main.java                    # Terminal CLI Coordinator Menu
+├── src/main/resources/web/          # Modern Single Page Web Dashboard (index.html)
+├── docs/                            # Documentation, Architecture & Viva Resources
+│   ├── PRESENTATION_20_SLIDES.md    # Complete 20-Slide Deck for Viva / Defense
+│   ├── SYSTEM_ARCHITECTURE.md       # Spaced Multi-Tier Corporate Architecture Diagram
+│   ├── DATABASE_TABLES_SCHEMA.md    # 8-Table 3NF Data Dictionary & Relational Matrix
+│   ├── PROJECT_REPORT.md            # Comprehensive Phase I Academic Project Report
+│   ├── SmartHostel_Project_Report.docx # Formatted Word Document Report
+│   └── SmartHostel_Project_Report.pdf  # Final Exported PDF Report
+├── diagrams/                        # Architecture, ER & UML Diagram Images
+├── lib/                             # JDBC SQLite & Web Driver JARs
+├── sql/                             # SQL DDL Scripts
+└── hostel.db                        # SQLite Database Engine
 ```
+
+---
+
+## 📚 Project Documentation & Viva Resources (in `docs/`)
+* **[20-Slide Viva Deck](docs/PRESENTATION_20_SLIDES.md):** Complete slide copy, talking points, test outcomes, and theoretical inferences.
+* **[System Architecture](docs/SYSTEM_ARCHITECTURE.md):** High-contrast, clean 4-tier corporate architecture flowchart in Mermaid.
+* **[8-Table Relational Schema](docs/DATABASE_TABLES_SCHEMA.md):** 3NF specifications for all 8 tables, data dictionary, check constraints, and foreign key cascades.
+* **[Full Phase I Project Report](docs/PROJECT_REPORT.md):** Complete bonafide certificate, PO/CO mapping, normalization proofs, and literature survey.
+
