@@ -99,6 +99,18 @@ public class BillingAndComplaintModule {
         }
     }
 
+    // DBMS: Remove / Delete a grievance ticket from Table 8
+    public boolean deleteComplaint(int complaintId) {
+        String sql = "DELETE FROM complaints WHERE complaint_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, complaintId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error deleting complaint: " + e.getMessage());
+            return false;
+        }
+    }
+
     // DBMS: Display complaints
     public void displayComplaints() {
         String sql = "SELECT c.complaint_id, u.full_name, s.reg_no, c.category, c.title, c.status, c.resolution_notes " +

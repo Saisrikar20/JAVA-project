@@ -122,14 +122,21 @@ public class WebServer {
         @Override
         public void handle(HttpExchange ex) throws IOException {
             addCorsHeaders(ex);
+            String path = ex.getRequestURI().getPath();
             if ("GET".equalsIgnoreCase(ex.getRequestMethod())) {
                 sendResponse(ex, 200, studentMod.getStudentsJson(), "application/json");
             } else if ("POST".equalsIgnoreCase(ex.getRequestMethod())) {
                 Map<String, String> p = parseBody(ex);
-                boolean ok = studentMod.registerStudent(
-                        p.get("username"), p.get("password"), p.get("fullName"),
-                        p.get("regNo"), p.get("gender"), p.get("dept"), p.get("phone"));
-                sendResponse(ex, ok ? 200 : 400, "{\"success\":" + ok + "}", "application/json");
+                if (path.endsWith("/deregister") || path.endsWith("/delete")) {
+                    int sId = Integer.parseInt(p.get("studentId"));
+                    boolean ok = studentMod.deregisterStudent(sId);
+                    sendResponse(ex, ok ? 200 : 400, "{\"success\":" + ok + "}", "application/json");
+                } else {
+                    boolean ok = studentMod.registerStudent(
+                            p.get("username"), p.get("password"), p.get("fullName"),
+                            p.get("regNo"), p.get("gender"), p.get("dept"), p.get("phone"));
+                    sendResponse(ex, ok ? 200 : 400, "{\"success\":" + ok + "}", "application/json");
+                }
             }
         }
     }
@@ -227,6 +234,10 @@ public class WebServer {
                     int cId = Integer.parseInt(p.get("complaintId"));
                     String notes = p.getOrDefault("notes", "Resolved by warden.");
                     boolean ok = billMod.resolveComplaint(cId, notes);
+                    sendResponse(ex, ok ? 200 : 400, "{\"success\":" + ok + "}", "application/json");
+                } else if (path.endsWith("/remove") || path.endsWith("/delete")) {
+                    int cId = Integer.parseInt(p.get("complaintId"));
+                    boolean ok = billMod.deleteComplaint(cId);
                     sendResponse(ex, ok ? 200 : 400, "{\"success\":" + ok + "}", "application/json");
                 } else {
                     int sId = Integer.parseInt(p.get("studentId"));

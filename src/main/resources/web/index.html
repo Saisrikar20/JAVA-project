@@ -990,7 +990,7 @@
           <div class="table-container">
             <table id="table-students">
               <thead>
-                <tr><th>User ID</th><th>Reg No</th><th>Student Name</th><th>Gender</th><th>Department</th><th>Phone</th></tr>
+                <tr><th>User ID</th><th>Reg No</th><th>Student Name</th><th>Gender</th><th>Department</th><th>Phone</th><th>Action</th></tr>
               </thead>
               <tbody></tbody>
             </table>
@@ -1227,7 +1227,7 @@
           <div class="table-container">
             <table id="table-student-complaints">
               <thead>
-                <tr><th>Ticket ID</th><th>Category</th><th>Issue Title</th><th>Status</th><th>Warden Action / Remarks</th></tr>
+                <tr><th>Ticket ID</th><th>Category</th><th>Issue Title</th><th>Status</th><th>Warden Action / Remarks</th><th>Action</th></tr>
               </thead>
               <tbody></tbody>
             </table>
@@ -1658,6 +1658,15 @@
           <td><span class="badge badge-primary">${s.gender}</span></td>
           <td>${s.dept}</td>
           <td>${s.phone}</td>
+          <td>
+            <button class="btn btn-outline btn-sm" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4); padding: 4px 10px; font-size: 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" onclick="confirmDeregisterStudent(${s.id}, '${s.name.replace(/'/g, "\\'")}')" title="Deregister student">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              Deregister
+            </button>
+          </td>
         </tr>
       `).join('');
     }
@@ -1735,7 +1744,18 @@
           <td>
             ${c.status === 'PENDING' ? `
               <button class="btn btn-success btn-sm" onclick="promptResolveComplaint(${c.id})">Resolve</button>
-            ` : '<span style="color: var(--success); font-weight: 600;">Resolved</span>'}
+            ` : `
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <span class="badge badge-success" style="padding: 3px 8px; font-size: 0.72rem;">Resolved</span>
+                <button class="btn btn-outline btn-sm" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4); padding: 3px 8px; font-size: 0.72rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 3px;" onclick="confirmRemoveComplaint(${c.id})" title="Remove resolved ticket">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            `}
           </td>
         </tr>
       `).join('');
@@ -1803,7 +1823,7 @@
 
       const tbody = document.querySelector('#table-student-complaints tbody');
       if (myTickets.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No active maintenance grievances filed.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No active maintenance grievances filed.</td></tr>';
         return;
       }
       tbody.innerHTML = myTickets.map(c => `
@@ -1813,6 +1833,17 @@
           <td>${c.title}</td>
           <td><span class="badge ${c.status === 'RESOLVED' ? 'badge-success' : 'badge-danger'}">${c.status}</span></td>
           <td><em>${c.notes || 'Assigned to maintenance team'}</em></td>
+          <td>
+            ${c.status === 'RESOLVED' ? `
+              <button class="btn btn-outline btn-sm" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4); padding: 3px 8px; font-size: 0.72rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 3px;" onclick="confirmRemoveComplaint(${c.id})" title="Remove resolved ticket">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Remove
+              </button>
+            ` : '<span style="color: var(--text-muted); font-size: 0.75rem;">In Progress</span>'}
+          </td>
         </tr>
       `).join('');
     }
@@ -1983,8 +2014,57 @@
         showToast('Complaint marked as RESOLVED!');
         closeModal('modal-resolve-complaint');
         loadComplaints();
+        loadStudentComplaints();
       } else {
         showToast('Failed to update complaint status.', false);
+      }
+    }
+
+    async function confirmDeregisterStudent(id, name) {
+      if (!confirm(`Are you sure you want to deregister ${name} (ID: #${id})?\n\nThis will release any active room allocation and permanently delete the student's records.`)) {
+        return;
+      }
+      try {
+        const res = await fetch('/api/students/deregister', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ studentId: id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Student #${id} (${name}) has been deregistered.`);
+          loadStudents();
+          loadRooms();
+          loadAllocations();
+          loadFinancialAudit();
+        } else {
+          showToast('Failed to deregister student.', false);
+        }
+      } catch (err) {
+        showToast('Error during deregistration: ' + err.message, false);
+      }
+    }
+
+    async function confirmRemoveComplaint(id) {
+      if (!confirm(`Are you sure you want to remove grievance ticket #${id}?`)) {
+        return;
+      }
+      try {
+        const res = await fetch('/api/complaints/remove', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ complaintId: id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Complaint #${id} removed successfully.`);
+          loadComplaints();
+          loadStudentComplaints();
+        } else {
+          showToast('Failed to remove complaint.', false);
+        }
+      } catch (err) {
+        showToast('Error removing complaint: ' + err.message, false);
       }
     }
   </script>

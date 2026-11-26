@@ -74,9 +74,10 @@ public class Main {
             System.out.println("5. View Active Allocations");
             System.out.println("6. View Fee Audit & Collections");
             System.out.println("7. View All Complaints");
-            System.out.println("8. Logout");
+            System.out.println("8. Deregister Student");
+            System.out.println("9. Logout");
             System.out.print("Choice: ");
-            int c = readInt(1, 8);
+            int c = readInt(1, 9);
             if (c == 1) studentMod.displayAllStudents();
             else if (c == 2) {
                 System.out.print("Username: "); String u = sc.nextLine();
@@ -102,7 +103,18 @@ public class Main {
             } else if (c == 5) allocMod.displayAllocations();
             else if (c == 6) billMod.displayFinancialAudit();
             else if (c == 7) billMod.displayComplaints();
-            else break;
+            else if (c == 8) {
+                System.out.print("Enter Student ID to deregister: "); int sId = readInt(1, 10000);
+                System.out.print("Are you sure you want to deregister Student #" + sId + "? (yes/no): ");
+                String confirm = sc.nextLine().trim();
+                if ("yes".equalsIgnoreCase(confirm) || "y".equalsIgnoreCase(confirm)) {
+                    if (studentMod.deregisterStudent(sId)) {
+                        System.out.println("Student #" + sId + " deregistered successfully! All room allocations & records cleared.");
+                    } else {
+                        System.out.println("Failed to deregister student.");
+                    }
+                }
+            } else break;
         }
     }
 
@@ -115,9 +127,10 @@ public class Main {
             System.out.println("4. Vacate Student from Room");
             System.out.println("5. View All Active Allocations");
             System.out.println("6. Resolve Complaint");
-            System.out.println("7. Logout");
+            System.out.println("7. Remove / Clear Complaint");
+            System.out.println("8. Logout");
             System.out.print("Choice: ");
-            int c = readInt(1, 7);
+            int c = readInt(1, 8);
             if (c == 1) roomMod.displayAllRooms();
             else if (c == 2) {
                 System.out.println("Search by: 1. Min Capacity | 2. Room Type");
@@ -141,6 +154,13 @@ public class Main {
                 System.out.print("Enter Complaint ID: "); int cId = readInt(1, 1000);
                 System.out.print("Enter Resolution Remarks: "); String notes = sc.nextLine();
                 if (billMod.resolveComplaint(cId, notes)) System.out.println("Complaint resolved!");
+            } else if (c == 7) {
+                System.out.print("Enter Complaint ID to remove: "); int cId = readInt(1, 10000);
+                if (billMod.deleteComplaint(cId)) {
+                    System.out.println("Complaint #" + cId + " removed successfully!");
+                } else {
+                    System.out.println("Failed to remove complaint.");
+                }
             } else break;
         }
     }

@@ -182,4 +182,59 @@ public class StudentModule {
         sb.append("]");
         return sb.toString();
     }
+
+    // DBMS: Deregister a student (cascade deallocation, fee/complaint cleanup, student/user deletion)
+    public boolean deregisterStudent(int studentId) {
+        try {
+            conn.setAutoCommit(false);
+
+            // 1. Check for active room allocation and release bed occupancy
+            String findRoomSql = "SELECT room_id FROM allocations WHERE student_id = ? AND status = 'ACTIVE'";
+            try (PreparedStatement ps = conn.prepareStatement(findRoomSql)) {
+                ps.setInt(1, studentId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        int roomId = rs.getInt("room_id");
+                        String updateRoomSql = "UPDATE rooms SET beds_occupied = MAX(0, beds_occupied - 1) WHERE room_id = ?";
+                        try (PreparedStatement updatePs = conn.prepareStatement(updateRoomSql)) {
+                            updatePs.setInt(1, roomId);
+                            updatePs.executeUpdate();
+                        }
+                    }
+                }
+            }
+
+            // 2. Remove associated transactional child records
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM allocations WHERE student_id = ?")) {
+                ps.setInt(1, studentId);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM fee_payments WHERE student_id = ?")) {
+                ps.setInt(1, studentId);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM complaints WHERE student_id = ?")) {
+                ps.setInt(1, studentId);
+                ps.executeUpdate();
+            }
+
+            // 3. Remove from students and users tables
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM students WHERE student_id = ?")) {
+                ps.setInt(1, studentId);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE user_id = ?")) {
+                ps.setInt(1, studentId);
+                ps.executeUpdate();
+            }
+
+            conn.commit();
+            conn.setAutoCommit(true);
+            return true;
+        } catch (SQLException e) {
+            try { conn.rollback(); conn.setAutoCommit(true); } catch (SQLException ignored) {}
+            System.err.println("Error deregistering student: " + e.getMessage());
+            return false;
+        }
+    }
 }
