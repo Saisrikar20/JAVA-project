@@ -67,6 +67,9 @@ public class WebServer {
     public static void main(String[] args) {
         start(DEFAULT_PORT);
         System.out.println("Hostel Management Web Application is live! Open your browser to http://localhost:" + DEFAULT_PORT);
+        try {
+            Thread.currentThread().join();
+        } catch (InterruptedException ignored) {}
     }
 
     // --- HTTP HANDLERS ---
@@ -74,6 +77,11 @@ public class WebServer {
     static class StaticFileHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange ex) throws IOException {
+            if ("HEAD".equalsIgnoreCase(ex.getRequestMethod())) {
+                ex.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
+                ex.sendResponseHeaders(200, -1);
+                return;
+            }
             if (!"GET".equalsIgnoreCase(ex.getRequestMethod())) {
                 sendResponse(ex, 405, "Method Not Allowed", "text/plain");
                 return;
@@ -253,6 +261,11 @@ public class WebServer {
     // --- UTILITIES ---
 
     private static void sendResponse(HttpExchange ex, int status, String body, String contentType) throws IOException {
+        if ("HEAD".equalsIgnoreCase(ex.getRequestMethod())) {
+            ex.getResponseHeaders().set("Content-Type", contentType + "; charset=UTF-8");
+            ex.sendResponseHeaders(status, -1);
+            return;
+        }
         byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
         ex.getResponseHeaders().set("Content-Type", contentType + "; charset=UTF-8");
         ex.sendResponseHeaders(status, bytes.length);
