@@ -120,6 +120,7 @@ g:/java project/
 │   └── Main.java                    # Terminal CLI Coordinator Menu
 ├── src/main/resources/web/          # Modern Single Page Web Dashboard (index.html)
 ├── docs/                            # Documentation, Architecture & Viva Resources
+│   ├── JAVA_OOP_PRINCIPLES.md       # Comprehensive Java OOP Concepts & Viva Defense Guide
 │   ├── PRESENTATION_20_SLIDES.md    # Complete 20-Slide Deck for Viva / Defense
 │   ├── SYSTEM_ARCHITECTURE.md       # Spaced Multi-Tier Corporate Architecture Diagram
 │   ├── DATABASE_TABLES_SCHEMA.md    # 8-Table 3NF Data Dictionary & Relational Matrix
@@ -135,6 +136,7 @@ g:/java project/
 ---
 
 ## 📚 Project Documentation & Viva Resources (in `docs/`)
+* **[Java & OOP Principles Guide](docs/JAVA_OOP_PRINCIPLES.md):** Complete guide to Encapsulation, Inheritance, Polymorphism, Abstraction, Design Patterns, and top 10 viva Q&As.
 * **[20-Slide Viva Deck](docs/PRESENTATION_20_SLIDES.md):** Complete slide copy, talking points, test outcomes, and theoretical inferences.
 * **[System Architecture](docs/SYSTEM_ARCHITECTURE.md):** High-contrast, clean 4-tier corporate architecture flowchart in Mermaid.
 * **[8-Table Relational Schema](docs/DATABASE_TABLES_SCHEMA.md):** 3NF specifications for all 8 tables, data dictionary, check constraints, and foreign key cascades.
